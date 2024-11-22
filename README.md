@@ -1,0 +1,2 @@
+# narou_novel_batch
+なろう小説のAPIに対してバッチ処理を実施
