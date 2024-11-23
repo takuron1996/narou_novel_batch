@@ -17,6 +17,21 @@ services:
       - "5432:5432" # テスト用のポート
     networks:
       - narou_novel_batch_db
+  batch:
+    container_name: batch
+    build:
+      context: .
+      dockerfile: containers/python/Dockerfile
+    volumes:
+      - ./application:/application
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - narou_novel_batch_db
+    tty: true
 volumes:
   db_data:
 networks:
