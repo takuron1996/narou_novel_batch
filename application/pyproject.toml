@@ -6,6 +6,10 @@ authors = ["takuron1996"]
 
 [tool.poetry.dependencies]
 python = "^3.12"
+sqlalchemy = "^2.0.36"
+psycopg2 = "^2.9.10"
+alembic = "^1.14.0"
+pydantic-settings = "^2.6.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
