@@ -6,7 +6,7 @@ POETRY_RUN = $(DOCKER) poetry run
 LINT_RESULT = lint_result.txt
 
 test:
-	$(POETRY_RUN) pytest -n auto -ra -p no:cacheprovider --strict-config --strict-markers -vv --diff-symbols --cov --cov-report=html --gherkin-terminal-reporter
+	$(POETRY_RUN) pytest -n auto -ra -p no:cacheprovider --strict-config --strict-markers -vv --diff-symbols --cov --cov-report=html
 
 up:
 	docker compose up -d
