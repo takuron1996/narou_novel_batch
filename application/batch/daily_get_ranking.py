@@ -3,6 +3,8 @@
 from datetime import datetime
 from config.log import console_logger
 import sys
+from apis.narou.urls import NarouRankURLBuilder
+from apis.narou.type import RankType
 
 
 def process_command_args(args):
@@ -40,7 +42,6 @@ def run(args):
     Args:
         args (list): コマンド引数リスト（sys.argvの代わり）
     """
-
     ## コマンド引数の処理
     try:
         rank_date = process_command_args(args)
@@ -50,4 +51,9 @@ def run(args):
         sys.exit(1)
 
     ## なろうランキングAPIを叩く
+    ###rank_dateを用いてURLを生成
+    url = NarouRankURLBuilder().set_date(rank_date).set_rank_type(RankType.DAILY).build()
+    console_logger.debug(f"生成したURL: {url}")
+    ###GET通信でなろうランキングAPIを叩く
+    ####・レスポンスが200以外の場合はエラーとして終了
     ## DBに取得結果を入れる
