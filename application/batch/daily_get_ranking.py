@@ -1,0 +1,53 @@
+"""日刊ランキング取得バッチ"""
+
+from datetime import datetime
+from config.log import console_logger
+import sys
+
+
+def process_command_args(args):
+    """
+    コマンド引数の処理を行う関数。
+
+    Args:
+        args (list): コマンド引数リスト（sys.argvの代わり）
+
+    Returns:
+        str: 有効なrank_date（yyyymmdd形式）
+        str: エラーが発生した場合は例外を発生させる
+    """
+    if len(args) > 1:
+        rank_date = args[1]
+        try:
+            # 日付形式の確認
+            parsed_date = datetime.strptime(rank_date, "%Y%m%d")
+            # 未来日のチェック
+            if parsed_date > datetime.now():
+                raise ValueError("rank_dateは未来日を指定できません。")
+        except ValueError as e:
+            raise ValueError(f"無効なrank_dateが指定されました: {e}")
+    else:
+        # 引数が指定されていない場合は現在日時を使用
+        rank_date = datetime.now().strftime("%Y%m%d")
+
+    return rank_date
+
+
+def run(args):
+    """
+    メイン処理を実行する関数。
+
+    Args:
+        args (list): コマンド引数リスト（sys.argvの代わり）
+    """
+
+    ## コマンド引数の処理
+    try:
+        rank_date = process_command_args(args)
+        console_logger.debug(f"処理対象の日付: {rank_date}")
+    except ValueError as e:
+        console_logger.error(f"{e}")
+        sys.exit(1)
+
+    ## なろうランキングAPIを叩く
+    ## DBに取得結果を入れる
