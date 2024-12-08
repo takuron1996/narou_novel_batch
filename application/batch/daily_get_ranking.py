@@ -5,7 +5,7 @@ from config.log import console_logger
 import sys
 from apis.narou.urls import NarouRankURLBuilder
 from apis.narou.type import RankType
-
+from apis.request import request_get
 
 def process_command_args(args):
     """
@@ -55,5 +55,10 @@ def run(args):
     url = NarouRankURLBuilder().set_date(rank_date).set_rank_type(RankType.DAILY).build()
     console_logger.debug(f"生成したURL: {url}")
     ###GET通信でなろうランキングAPIを叩く
+    response = request_get(url)
     ####・レスポンスが200以外の場合はエラーとして終了
+    if response is None:
+        console_logger.error("レスポンスが200以外のため終了")
+        sys.exit(1)
     ## DBに取得結果を入れる
+    
