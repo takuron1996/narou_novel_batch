@@ -6,6 +6,9 @@ import sys
 from apis.narou.urls import NarouRankURLBuilder
 from apis.narou.type import RankType
 from apis.request import request_get
+from apis.narou.narou_data import NarouRankDataMapper
+from repository.daily_get_ranking_repository import ranking_insert
+
 
 def process_command_args(args):
     """
@@ -35,12 +38,13 @@ def process_command_args(args):
     return rank_date
 
 
-def run(args):
+def run(args, session):
     """
     メイン処理を実行する関数。
 
     Args:
         args (list): コマンド引数リスト（sys.argvの代わり）
+        session: DBのインスタンス
     """
     ## コマンド引数の処理
     try:
@@ -52,7 +56,12 @@ def run(args):
 
     ## なろうランキングAPIを叩く
     ###rank_dateを用いてURLを生成
-    url = NarouRankURLBuilder().set_date(rank_date).set_rank_type(RankType.DAILY).build()
+    url = (
+        NarouRankURLBuilder()
+        .set_date(rank_date)
+        .set_rank_type(RankType.DAILY)
+        .build()
+    )
     console_logger.debug(f"生成したURL: {url}")
     ###GET通信でなろうランキングAPIを叩く
     response = request_get(url)
@@ -61,4 +70,5 @@ def run(args):
         console_logger.error("レスポンスが200以外のため終了")
         sys.exit(1)
     ## DBに取得結果を入れる
-    
+    data = NarouRankDataMapper.map_response_to_data(response, rank_date)
+    ranking_insert(session, data)
