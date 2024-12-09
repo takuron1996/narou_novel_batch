@@ -21,5 +21,6 @@ def read_logger(filename):
     with open(filename, mode="rb") as file:
         dictConfig(tomllib.load(file).get("logging"))
 
+
 read_logger("log.toml")
 console_logger = getLogger(LoggerName.CONSOLE.value)

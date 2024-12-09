@@ -3,6 +3,7 @@
 import requests
 from config.log import console_logger
 
+
 def request_get(
     url,
     headers=None,
