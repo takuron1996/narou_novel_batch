@@ -15,3 +15,4 @@
 | `POSTGRES_PASSWORD` | Postgresのパスワード    | `postgres`              |
 | `POSTGRES_HOST`   | Postgresのホスト名     | `db`                    |
 | `POSTGRES_PORT`   | Postgresのポート番号    | `5432`                  |
+| `DEBUG`   | DEBUGモードで起動するかどうか（TRUEはDEBUGモード）    | `true`                  |
