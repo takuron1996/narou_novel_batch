@@ -17,7 +17,7 @@ class Rank(Base):
 
     __tablename__ = "rank"
 
-    id = Column(String(26), ForeignKey(NcodeMapping.id), nullable=False)
+    id = Column(String(36), ForeignKey(NcodeMapping.id), nullable=False)
     rank = Column(Integer, nullable=False)
     rank_date = Column(Date, nullable=False)
     created_at = Column(
