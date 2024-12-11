@@ -8,13 +8,15 @@ WITH mapping_id(id) AS(
 INSERT INTO rank(
     id,
     rank,
-    rank_date
+    rank_date,
+    rank_type
 )
 SELECT
     id,
     :rank,
-    :rank_date
+    :rank_date,
+    :rank_type
 FROM
     mapping_id
-ON CONFLICT(id, rank, rank_date) DO NOTHING
+ON CONFLICT(id, rank, rank_date, rank_type) DO NOTHING
 ;

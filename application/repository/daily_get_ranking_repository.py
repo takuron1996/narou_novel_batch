@@ -27,7 +27,8 @@ def ranking_insert(session, narou_rank_data_list):
         text(sql_query)
         .bindparams(id="id")
         .bindparams(rank="rank")
-        .bindparams(rank_date="rank_date"),
+        .bindparams(rank_date="rank_date")
+        .bindparams(rank_type="rank_type"),
         params,
     )
     session.commit()

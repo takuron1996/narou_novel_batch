@@ -84,5 +84,7 @@ def run(args, session):
         console_logger.error("レスポンスが200以外のため終了")
         sys.exit(1)
     ## DBに取得結果を入れる
-    data = NarouRankDataMapper.map_response_to_data(response, rank_date)
+    data = NarouRankDataMapper.map_response_to_data(
+        response, rank_date, rank_type
+    )
     ranking_insert(session, data)
