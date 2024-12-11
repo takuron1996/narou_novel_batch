@@ -10,6 +10,9 @@ from models.base import Base
 from sqlalchemy.engine.url import URL
 from importlib import import_module
 from pathlib import Path
+from tests.factories.rank_type import RankTypeFactory
+from tests.factories.ncode_mapping import NcodeMappingFactory
+from tests.factories.rank import RankFactory
 
 
 def import_migration_module(module):
@@ -25,6 +28,20 @@ def import_migration_module(module):
 import_migration_module("models")
 postgresql_in_docker = factories.postgresql_noproc()
 postgresql_fixture = factories.postgresql("postgresql_in_docker")
+
+
+def init_db(db):
+    """テスト用DBの初期設定"""
+    # Factoryの初期設定
+    RankTypeFactory._meta.sqlalchemy_session = db
+    RankFactory._meta.sqlalchemy_session = db
+    NcodeMappingFactory._meta.sqlalchemy_session = db
+
+    # rank_type
+    RankTypeFactory.create(type="d")
+    RankTypeFactory.create(type="w")
+    RankTypeFactory.create(type="m")
+    RankTypeFactory.create(type="q")
 
 
 @pytest.fixture
@@ -52,6 +69,7 @@ def db(postgresql_fixture):
     db: Session = None
     try:
         db = SessionFactory()
+        init_db(db)
         yield db
         db.commit()
     except Exception:

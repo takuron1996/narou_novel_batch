@@ -12,10 +12,20 @@ def initial_narou_rank_data():
     """初期データのNarouRankDataリストを返すフィクスチャ"""
     return [
         NarouRankData(
-            id="1", ncode="ncode1", rank=1, rank_date="20241211", pt=101
+            id="1",
+            ncode="ncode1",
+            rank=1,
+            rank_date="20241211",
+            pt=101,
+            rank_type="d",
         ),
         NarouRankData(
-            id="2", ncode="ncode2", rank=2, rank_date="20241211", pt=100
+            id="2",
+            ncode="ncode2",
+            rank=2,
+            rank_date="20241211",
+            pt=100,
+            rank_type="d",
         ),
     ]
 
@@ -25,10 +35,20 @@ def duplicate_narou_rank_data():
     """初期データのNarouRankDataリストを返すフィクスチャ"""
     return [
         NarouRankData(
-            id="3", ncode="ncode1", rank=1, rank_date="20241212", pt=99
+            id="3",
+            ncode="ncode1",
+            rank=1,
+            rank_date="20241212",
+            pt=99,
+            rank_type="d",
         ),  # ncode1が重複
         NarouRankData(
-            id="4", ncode="ncode3", rank=2, rank_date="20241212", pt=98
+            id="4",
+            ncode="ncode3",
+            rank=2,
+            rank_date="20241212",
+            pt=98,
+            rank_type="d",
         ),
     ]
 
@@ -86,12 +106,14 @@ def test_rank_table_insertion(db, initial_narou_rank_data):
         rank_results[0].rank_date
         == datetime.strptime("20241211", "%Y%m%d").date()
     )
+    assert rank_results[0].rank_type == "d"
     assert rank_results[1].id == "2"
     assert rank_results[1].rank == 2
     assert (
         rank_results[1].rank_date
         == datetime.strptime("20241211", "%Y%m%d").date()
     )
+    assert rank_results[1].rank_type == "d"
 
 
 def test_rank_table_with_duplicate_ncode(
@@ -116,6 +138,7 @@ def test_rank_table_with_duplicate_ncode(
         rank_results[0].rank_date
         == datetime.strptime("20241211", "%Y%m%d").date()
     )
+    assert rank_results[0].rank_type == "d"
 
     assert rank_results[1].id == "2"
     assert rank_results[1].rank == 2
@@ -123,6 +146,7 @@ def test_rank_table_with_duplicate_ncode(
         rank_results[1].rank_date
         == datetime.strptime("20241211", "%Y%m%d").date()
     )
+    assert rank_results[1].rank_type == "d"
 
     # 重複ncodeでもrankに追加される
     assert rank_results[2].id == "1"
@@ -131,6 +155,7 @@ def test_rank_table_with_duplicate_ncode(
         rank_results[2].rank_date
         == datetime.strptime("20241212", "%Y%m%d").date()
     )
+    assert rank_results[2].rank_type == "d"
 
     assert rank_results[3].id == "4"
     assert rank_results[3].rank == 2
@@ -138,3 +163,4 @@ def test_rank_table_with_duplicate_ncode(
         rank_results[3].rank_date
         == datetime.strptime("20241212", "%Y%m%d").date()
     )
+    assert rank_results[3].rank_type == "d"

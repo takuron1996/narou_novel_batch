@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from batch.daily_get_ranking import process_command_args
 from apis.narou.type import RankType
 
+
 # process_command_argsのテスト
 def test_future_date():
     """未来日のrank_dateが指定された場合はエラー"""
@@ -33,6 +34,7 @@ def test_empty_date_argument():
     args = ["", "d"]
     with pytest.raises(ValueError, match="無効なrank_dateが指定されました"):
         process_command_args(args)
+
 
 def test_valid_rank_type_daily():
     """有効なrank_typeがDAILYの場合"""
@@ -65,10 +67,14 @@ def test_valid_rank_type_quarterly():
     assert results[0] == "20231201"
     assert results[1] == RankType.QUARTERLY
 
+
 def test_invalid_rank_type():
     """無効なrank_typeが指定された場合はエラー"""
     args = ["20231201", "invalid"]
-    with pytest.raises(ValueError, match="無効なrank_typeが指定されました。許容される値: d, w, m, q"):
+    with pytest.raises(
+        ValueError,
+        match="無効なrank_typeが指定されました。許容される値: d, w, m, q",
+    ):
         process_command_args(args)
 
 
@@ -79,8 +85,12 @@ def test_default_rank_type():
     assert results[0] == "20231201"
     assert results[1] == RankType.DAILY
 
+
 def test_empty_rank_type_argument():
     """rank_typeが空文字の場合はエラーとする"""
     args = ["20231201", ""]
-    with pytest.raises(ValueError, match="無効なrank_typeが指定されました。許容される値: d, w, m, q"):
+    with pytest.raises(
+        ValueError,
+        match="無効なrank_typeが指定されました。許容される値: d, w, m, q",
+    ):
         process_command_args(args)

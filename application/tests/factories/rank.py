@@ -6,6 +6,8 @@ import datetime
 class RankFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Rank
+        sqlalchemy_session = None  # セッションを初期化
+        sqlalchemy_session_persistence = "commit"  # データをコミットする
 
     id = factory.SubFactory(
         "tests.factories.NcodeMappingFactory"
