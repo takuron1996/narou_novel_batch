@@ -18,11 +18,11 @@ def process_command_args(args):
         args (list): コマンド引数リスト（sys.argvの代わり）
 
     Returns:
-        str: 有効なrank_date（yyyymmdd形式）
+        tuple: 有効なrank_date（yyyymmdd形式）とrank_type
         str: エラーが発生した場合は例外を発生させる
     """
-    if len(args) > 1:
-        rank_date = args[1]
+    if len(args) > 0:
+        rank_date = args[0]
         try:
             # 日付形式の確認
             parsed_date = datetime.strptime(rank_date, "%Y%m%d")
@@ -35,7 +35,20 @@ def process_command_args(args):
         # 引数が指定されていない場合は現在日時を使用
         rank_date = datetime.now().strftime("%Y%m%d")
 
-    return rank_date
+    # rank_typeの処理
+    if len(args) > 1:
+        rank_type = args[1]
+        try:
+            rank_type = RankType(rank_type)
+        except ValueError:
+            raise ValueError(
+                "無効なrank_typeが指定されました。許容される値: d, w, m, q"
+            )
+    else:
+        # rank_typeが指定されていない場合は"d"をデフォルトとして設定
+        rank_type = RankType.DAILY
+
+    return rank_date, rank_type
 
 
 def run(args, session):
@@ -48,8 +61,9 @@ def run(args, session):
     """
     ## コマンド引数の処理
     try:
-        rank_date = process_command_args(args)
+        rank_date, rank_type = process_command_args(args)
         console_logger.debug(f"処理対象の日付: {rank_date}")
+        console_logger.debug(f"処理対象の形式: {rank_type.name}")
     except ValueError as e:
         console_logger.error(f"{e}")
         sys.exit(1)
@@ -59,7 +73,7 @@ def run(args, session):
     url = (
         NarouRankURLBuilder()
         .set_date(rank_date)
-        .set_rank_type(RankType.DAILY)
+        .set_rank_type(rank_type)
         .build()
     )
     console_logger.debug(f"生成したURL: {url}")
