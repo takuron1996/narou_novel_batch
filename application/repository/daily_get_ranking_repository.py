@@ -1,29 +1,28 @@
 from sqlalchemy import text
 from pathlib import Path
 from dataclasses import asdict
+from config.db import get_sql_query
+from config.log import console_logger
 
-
-def get_sql_query(file_name):
-    """SQLファイルのパスからファイルの中身を取得"""
-    current_dir = Path(__file__).parent
-    file_path = current_dir / "sql" / "daily_get_ranking_repository" / file_name
-    with file_path.open("r") as file:
-        return file.read()
+base_dir = Path(__file__).parent
+sub_dirs = ["sql", "daily_get_ranking_repository"]
 
 
 def ranking_insert(session, narou_rank_data_list):
     """ならうランキングデータを投入"""
     params = tuple(map(asdict, narou_rank_data_list))
 
-    # nocde_mappingの登録
-    sql_query = get_sql_query("ranking_insert_ncode_mapping.sql")
+    console_logger.debug("nocde_mappingの登録")
+    sql_query = get_sql_query(
+        "ranking_insert_ncode_mapping.sql", base_dir, sub_dirs
+    )
     session.execute(
         text(sql_query).bindparams(ncode="ncode").bindparams(id="id"),
         params,
     )
 
-    # rankの登録
-    sql_query = get_sql_query("ranking_insert_rank.sql")
+    console_logger.debug("rankの登録")
+    sql_query = get_sql_query("ranking_insert_rank.sql", base_dir, sub_dirs)
     session.execute(
         text(sql_query)
         .bindparams(id="id")

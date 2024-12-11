@@ -4,6 +4,8 @@ from sqlalchemy import create_engine
 
 from config.env import postgre_settings, application_settings
 from contextlib import contextmanager
+from config.log import console_logger
+from pathlib import Path
 
 
 class SessionFactory:
@@ -44,3 +46,39 @@ def get_session():
         yield session
     finally:
         session.close()
+
+
+def get_sql_query(file_name, base_dir=None, sub_dirs=None):
+    """
+    SQLファイルのパスからファイルの中身を取得する汎用関数。
+
+    Args:
+        file_name (str): 読み込むSQLファイルの名前。
+        base_dir (Path, optional): ベースディレクトリ。デフォルトは現在のスクリプトのディレクトリ。
+        sub_dirs (list[str], optional): サブディレクトリのリスト。
+
+    Returns:
+        str: SQLファイルの内容。
+
+    Raises:
+        FileNotFoundError: ファイルが見つからない場合に例外をスロー。
+    """
+    if base_dir is None:
+        base_dir = Path(__file__).parent
+    else:
+        base_dir = Path(base_dir)
+
+    # サブディレクトリを結合
+    if sub_dirs:
+        file_path = base_dir.joinpath(*sub_dirs, file_name)
+    else:
+        file_path = base_dir / file_name
+
+    # ファイルを読み込み
+    if not file_path.exists():
+        console_logger.error(f"SQLファイルが見つかりません: {file_path}")
+        raise FileNotFoundError(f"SQL file not found: {file_path}")
+
+    console_logger.debug(f"ファイルを読み込みます: {file_path}")
+    with file_path.open("r", encoding="utf-8") as file:
+        return file.read()
