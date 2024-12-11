@@ -16,9 +16,9 @@ services:
     ports:
       - "5432:5432" # テスト用のポート
     networks:
-      - narou_novel_batch_db
-  batch:
-    container_name: batch
+      - narou_novel_app_db
+  app:
+    container_name: app
     build:
       context: .
       dockerfile: containers/python/Dockerfile
@@ -29,10 +29,12 @@ services:
         condition: service_healthy
     env_file:
       - .env
+    command: sh -c "/usr/local/bin/entrypoint.sh"
+    ports:
+      - "4200:4200" # prefect用のポート
     networks:
-      - narou_novel_batch_db
-    tty: true
+      - narou_novel_app_db
 volumes:
   db_data:
 networks:
-  narou_novel_batch_db:
+  narou_novel_app_db:

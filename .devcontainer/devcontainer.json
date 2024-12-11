@@ -3,7 +3,7 @@
     "dockerComposeFile": [
         "../docker-compose.yml"
     ],
-    "service": "batch",
+    "service": "app",
     "workspaceFolder": "/application",
     "settings": {
         "python.pythonPath": "fast-api-practice-hjPi/root/.cache/pypoetry/virtualenvs/narou-novel-batch-hjPiGOLl-py3.12/bin/python"
