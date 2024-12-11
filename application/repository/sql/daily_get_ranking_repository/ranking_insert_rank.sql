@@ -16,4 +16,5 @@ SELECT
     :rank_date
 FROM
     mapping_id
+ON CONFLICT(id, rank, rank_date) DO NOTHING
 ;
