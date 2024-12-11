@@ -10,6 +10,7 @@ from sqlalchemy import (
 )
 from models.base import Base
 from models.ncode_mapping import NcodeMapping
+from models.rank_type import RankType
 
 
 class Rank(Base):
@@ -20,6 +21,7 @@ class Rank(Base):
     id = Column(String(36), ForeignKey(NcodeMapping.id), nullable=False)
     rank = Column(Integer, nullable=False)
     rank_date = Column(Date, nullable=False)
+    rank_type = Column(String(1), ForeignKey(RankType.type), nullable=False)
     created_at = Column(
         TIMESTAMP, nullable=False, server_default=func.current_timestamp()
     )
@@ -32,11 +34,7 @@ class Rank(Base):
     deleted_at = Column(TIMESTAMP, nullable=True)
 
     __table_args__ = (
-        PrimaryKeyConstraint("id", "rank", "rank_date", name="pk_rank"),
+        PrimaryKeyConstraint(
+            "id", "rank", "rank_date", "rank_type", name="pk_rank"
+        ),
     )
-
-    def __repr__(self):
-        return (
-            f"<Rank(id='{self.id}', rank='{self.rank}', rank_date='{self.rank_date}', "
-            f"created_at='{self.created_at}', updated_at='{self.updated_at}', deleted_at='{self.deleted_at}')>"
-        )
