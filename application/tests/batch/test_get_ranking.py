@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime, timedelta
-from batch.daily_get_ranking import process_command_args
+from application.batch.get_ranking import process_command_args
 from apis.narou.type import RankType
 
 
