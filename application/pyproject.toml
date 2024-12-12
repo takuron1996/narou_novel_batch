@@ -21,7 +21,6 @@ pytest-randomly = "^3.16.0"
 pytest-mock = "^3.14.0"
 pytest-xdist = "^3.6.1"
 ruff = "^0.8.0"
-black = "^24.10.0"
 factory-boy = "^3.3.1"
 pytest-postgresql = "^6.1.1"
 
@@ -58,14 +57,14 @@ directory = "htmlcov"
 # Enable the pycodestyle (`E`) and Pyflakes (`F`) rules by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
-select = ["E", "F", "W", "D", "I"]
-ignore = []
+lint.select = ["E", "F", "W", "D", "I"]
+lint.ignore = []
 
-extend-exclude = ["migrations/versions/"]
+extend-exclude = ["migrations"]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
-fixable = ["ALL"]
-unfixable = []
+lint.fixable = ["ALL"]
+lint.unfixable = []
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
@@ -95,15 +94,15 @@ exclude = [
 line-length = 90
 
 # Allow unused variables when underscore-prefixed.
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 # Assume Python 3.12
 target-version = "py312"
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["ALL"]
 
 [tool.black]
