@@ -1,6 +1,4 @@
 """日刊ランキング取得バッチ."""
-
-import sys
 from datetime import datetime
 
 from prefect import flow, task
@@ -86,7 +84,7 @@ def task_command_line(args):
         )
     except ValueError as e:
         console_logger.error(f"{e}")
-        sys.exit(1)
+        raise e
     return rank_date, rank_type_list
 
 
@@ -107,7 +105,7 @@ def get_api(rank_date, rank_type):
     # ・レスポンスが200以外の場合はエラーとして終了
     if response is None:
         console_logger.error("レスポンスが200以外のため終了")
-        sys.exit(1)
+        raise Exception("レスポンスが200以外のため終了")
     return response
 
 
