@@ -1,11 +1,14 @@
+"""rank_typeのファクトリー関連."""
 import factory
+
 from models.rank_type import RankType
 
 
 class RankTypeFactory(factory.alchemy.SQLAlchemyModelFactory):
-    """RankTypeモデルのファクトリー"""
+    """RankTypeモデルのファクトリー."""
 
     class Meta:
+        """メタデータ."""
         model = RankType  # 対象のモデルを指定
         sqlalchemy_session = None  # セッションを初期化
         sqlalchemy_session_persistence = "commit"  # データをコミットする

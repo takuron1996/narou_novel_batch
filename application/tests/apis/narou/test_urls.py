@@ -1,10 +1,12 @@
+"""なろうランキングのURL関連のテスト."""
 import pytest
-from apis.narou.type import RankType, OutType
+
+from apis.narou.type import OutType, RankType
 from apis.narou.urls import NarouRankURLBuilder
 
 
 def test_build_success():
-    """正常なパラメータでURLが正しく生成されることをテスト"""
+    """正常なパラメータでURLが正しく生成されることをテスト."""
     builder = NarouRankURLBuilder()
     url = (
         builder.set_date("20230501")
@@ -19,7 +21,7 @@ def test_build_success():
 
 
 def test_missing_required_params():
-    """必須パラメータが不足している場合のエラーチェック"""
+    """必須パラメータが不足している場合のエラーチェック."""
     builder = NarouRankURLBuilder()
     with pytest.raises(
         ValueError, match="必須パラメータが不足しています: DATE, RANK_TYPE"
@@ -28,7 +30,7 @@ def test_missing_required_params():
 
 
 def test_invalid_date_for_rank_type():
-    """無効な日付が指定された場合のエラーチェック"""
+    """無効な日付が指定された場合のエラーチェック."""
     builder = NarouRankURLBuilder()
 
     # ケース1: 週間ランキングに月曜日を指定
@@ -95,7 +97,7 @@ def test_invalid_date_for_rank_type():
 
 
 def test_default_output_format():
-    """デフォルトの出力形式がJSONであることをテスト"""
+    """デフォルトの出力形式がJSONであることをテスト."""
     builder = NarouRankURLBuilder()
     builder.set_date("20231205").set_rank_type(RankType.DAILY)
     url = builder.build()

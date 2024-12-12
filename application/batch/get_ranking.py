@@ -63,6 +63,7 @@ def process_command_args(args):
 
 
 def generate_flow_run_name():
+    """実行時の名前を生成."""
     parameters = flow_run.parameters
     rank_date = parameters["rank_date"]
     if not rank_date:
@@ -126,7 +127,8 @@ def get_ranking(rank_date="", rank_type=""):
     """ランキングを取得してDBに蓄積.
 
     Args:
-        rank_date (str, optional): ランキングの対象となる日付を "yyyymmdd" 形式で指定します。
+        rank_date (str, optional): ランキングの対象となる日付を
+            "yyyymmdd" 形式で指定します。
             - 未指定の場合は現在日時が使用されます。
             - 以下の制約があります:
                 1. `rank_date` は2013年5月1日以降の日付である必要があります。

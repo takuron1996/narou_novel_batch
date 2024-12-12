@@ -1,20 +1,22 @@
+"""rankテーブル."""
 from sqlalchemy import (
-    Column,
-    String,
-    Integer,
-    Date,
     TIMESTAMP,
-    func,
+    Column,
+    Date,
     ForeignKey,
+    Integer,
     PrimaryKeyConstraint,
+    String,
+    func,
 )
+
 from models.base import Base
 from models.ncode_mapping import NcodeMapping
 from models.rank_type import RankType
 
 
 class Rank(Base):
-    """小説のランキングのテーブル"""
+    """小説のランキングのテーブル."""
 
     __tablename__ = "rank"
 

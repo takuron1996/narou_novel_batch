@@ -1,11 +1,13 @@
+"""DB関連の設定."""
+from contextlib import contextmanager
+from pathlib import Path
+
+from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
 
-from config.env import postgre_settings, application_settings
-from contextlib import contextmanager
+from config.env import application_settings, postgre_settings
 from config.log import console_logger
-from pathlib import Path
 
 
 class SessionFactory:
@@ -49,12 +51,12 @@ def get_session():
 
 
 def get_sql_query(file_name, base_dir=None, sub_dirs=None):
-    """
-    SQLファイルのパスからファイルの中身を取得する汎用関数。
+    """SQLファイルのパスからファイルの中身を取得する汎用関数。.
 
     Args:
         file_name (str): 読み込むSQLファイルの名前。
-        base_dir (Path, optional): ベースディレクトリ。デフォルトは現在のスクリプトのディレクトリ。
+        base_dir (Path, optional): ベースディレクトリ。
+            デフォルトは現在のスクリプトのディレクトリ。
         sub_dirs (list[str], optional): サブディレクトリのリスト。
 
     Returns:

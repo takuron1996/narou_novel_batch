@@ -1,13 +1,14 @@
-from dataclasses import dataclass
-from config.log import console_logger
-from datetime import datetime, date
+"""なろうAPIのランキング関連."""
 import uuid
-from apis.narou.type import RankType
+from dataclasses import dataclass
+from datetime import date, datetime
+
+from config.log import console_logger
 
 
 @dataclass
 class NarouRankData:
-    """ならうランキングAPIのレスポンスデータ"""
+    """ならうランキングAPIのレスポンスデータ."""
 
     ncode: str
     """nコード"""
@@ -24,11 +25,11 @@ class NarouRankData:
 
 
 class NarouRankDataMapper:
-    """APIレスポンスからNarouRankDataをマッピングするクラス"""
+    """APIレスポンスからNarouRankDataをマッピングするクラス."""
 
     @staticmethod
     def map_response_to_data(response, rank_date, rank_type):
-        """APIレスポンスからNarouRankDataのリストを生成するスタティックメソッド"""
+        """APIレスポンスからNarouRankDataのリストを生成するスタティックメソッド."""
         data_list = []
         try:
             for data in response.json():

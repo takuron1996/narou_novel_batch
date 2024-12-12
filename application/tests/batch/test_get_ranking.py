@@ -1,12 +1,15 @@
-import pytest
+"""なろうランキング取得処理関連のテスト."""
 from datetime import datetime, timedelta
-from batch.get_ranking import process_command_args
+
+import pytest
+
 from apis.narou.type import RankType
+from batch.get_ranking import process_command_args
 
 
 # process_command_argsのテスト
 def test_future_date():
-    """未来日のrank_dateが指定された場合はエラー"""
+    """未来日のrank_dateが指定された場合はエラー."""
     future_date = (datetime.now() + timedelta(days=1)).strftime("%Y%m%d")
     args = [future_date, "d"]
     with pytest.raises(ValueError, match="rank_dateは未来日を指定できません"):
@@ -14,14 +17,14 @@ def test_future_date():
 
 
 def test_invalid_date_format():
-    """無効な日付形式が指定された場合はエラー"""
+    """無効な日付形式が指定された場合はエラー."""
     args = ["invalid_date", "d"]
     with pytest.raises(ValueError, match="無効なrank_dateが指定されました"):
         process_command_args(args)
 
 
 def test_no_argument():
-    """引数が指定されていない場合は現在日時とデフォルトのrank_typeを使用"""
+    """引数が指定されていない場合は現在日時とデフォルトのrank_typeを使用."""
     args = []
     results = process_command_args(args)
     expected_date = datetime.now().strftime("%Y%m%d")
@@ -30,7 +33,7 @@ def test_no_argument():
 
 
 def test_empty_date_argument():
-    """空のrank_date引数が渡された場合は現在日とする"""
+    """空のrank_date引数が渡された場合は現在日とする."""
     args = ["", "d"]
     results = process_command_args(args)
     expected_date = datetime.now().strftime("%Y%m%d")
@@ -39,7 +42,7 @@ def test_empty_date_argument():
 
 
 def test_valid_rank_type_daily():
-    """有効なrank_typeがDAILYの場合"""
+    """有効なrank_typeがDAILYの場合."""
     args = ["20231201", "d"]
     results = process_command_args(args)
     assert results[0] == "20231201"
@@ -47,7 +50,7 @@ def test_valid_rank_type_daily():
 
 
 def test_valid_rank_type_weekly():
-    """有効なrank_typeがWEEKLYの場合"""
+    """有効なrank_typeがWEEKLYの場合."""
     args = ["20231201", "w"]
     results = process_command_args(args)
     assert results[0] == "20231201"
@@ -55,7 +58,7 @@ def test_valid_rank_type_weekly():
 
 
 def test_valid_rank_type_monthly():
-    """有効なrank_typeがMONTHLYの場合"""
+    """有効なrank_typeがMONTHLYの場合."""
     args = ["20231201", "m"]
     results = process_command_args(args)
     assert results[0] == "20231201"
@@ -63,7 +66,7 @@ def test_valid_rank_type_monthly():
 
 
 def test_valid_rank_type_quarterly():
-    """有効なrank_typeがQUARTERLYの場合"""
+    """有効なrank_typeがQUARTERLYの場合."""
     args = ["20231201", "q"]
     results = process_command_args(args)
     assert results[0] == "20231201"
@@ -71,7 +74,7 @@ def test_valid_rank_type_quarterly():
 
 
 def test_invalid_rank_type():
-    """無効なrank_typeが指定された場合はエラー"""
+    """無効なrank_typeが指定された場合はエラー."""
     args = ["20231201", "invalid"]
     with pytest.raises(
         ValueError,
@@ -81,7 +84,7 @@ def test_invalid_rank_type():
 
 
 def test_default_rank_type():
-    """rank_typeが指定されていない場合はデフォルト値と条件に基づいたrank_type_listを使用"""
+    """rank_typeが指定されていない場合はデフォルト値と条件に基づいたrank_type_listを使用."""
     # rank_type未指定で特定の日付（2023年12月5日、火曜日）をテスト
     args = ["20231205"]  # 火曜日
     results = process_command_args(args)
@@ -113,7 +116,7 @@ def test_default_rank_type():
 
 
 def test_empty_rank_type_argument():
-    """rank_typeが空文字の場合は条件に基づいたrank_type_listを使用"""
+    """rank_typeが空文字の場合は条件に基づいたrank_type_listを使用."""
     # rank_typeが空文字で特定の日付（2023年12月5日、火曜日）をテスト
     args = ["20231205", ""]
     results = process_command_args(args)
@@ -145,7 +148,7 @@ def test_empty_rank_type_argument():
 
 
 def test_date_before_20130501():
-    """2013年5月1日以前の日付が指定された場合もエラーにはならない"""
+    """2013年5月1日以前の日付が指定された場合もエラーにはならない."""
     args = ["20130430", "d"]
     results = process_command_args(args)
     assert results[0] == "20130430"
@@ -155,7 +158,7 @@ def test_date_before_20130501():
 
 
 def test_weekly_with_invalid_day():
-    """週間ランキングで火曜日以外の日付が指定された場合でもRankType.WEEKLYが含まれる"""
+    """週間ランキングで火曜日以外の日付が指定された場合でもRankType.WEEKLYが含まれる."""
     args = ["20231201", "w"]  # 2023年12月1日は金曜日
     results = process_command_args(args)
     # RankType.WEEKLY が結果に含まれることを確認
@@ -164,7 +167,7 @@ def test_weekly_with_invalid_day():
 
 
 def test_monthly_with_invalid_day():
-    """月間ランキングで1日以外の日付が指定された場合でもRankType.MONTHLYが含まれる"""
+    """月間ランキングで1日以外の日付が指定された場合でもRankType.MONTHLYが含まれる."""
     args = ["20231215", "m"]  # 2023年12月15日は1日ではない
     results = process_command_args(args)
     # RankType.MONTHLY が結果に含まれることを確認
@@ -173,7 +176,7 @@ def test_monthly_with_invalid_day():
 
 
 def test_quarterly_with_invalid_day():
-    """四半期ランキングで1日以外の日付が指定された場合でもRankType.QUARTERLYが含まれる"""
+    """四半期ランキングで1日以外の日付が指定された場合でもRankType.QUARTERLYが含まれる."""
     args = ["20231215", "q"]  # 2023年12月15日は1日ではない
     results = process_command_args(args)
     # RankType.QUARTERLY が結果に含まれることを確認
@@ -182,7 +185,7 @@ def test_quarterly_with_invalid_day():
 
 
 def test_weekly_with_tuesday():
-    """週間ランキングで火曜日が正しく処理される"""
+    """週間ランキングで火曜日が正しく処理される."""
     args = ["20231205", "w"]  # 2023年12月5日は火曜日
     results = process_command_args(args)
     assert results[0] == "20231205"
@@ -190,7 +193,7 @@ def test_weekly_with_tuesday():
 
 
 def test_monthly_with_first_day():
-    """月間ランキングで1日が正しく処理される"""
+    """月間ランキングで1日が正しく処理される."""
     args = ["20231201", "m"]
     results = process_command_args(args)
     assert results[0] == "20231201"
@@ -198,7 +201,7 @@ def test_monthly_with_first_day():
 
 
 def test_quarterly_with_first_day():
-    """四半期ランキングで1日が正しく処理される"""
+    """四半期ランキングで1日が正しく処理される."""
     args = ["20231201", "q"]
     results = process_command_args(args)
     assert results[0] == "20231201"

@@ -1,10 +1,13 @@
-from sqlalchemy import Column, String, TIMESTAMP, func, UniqueConstraint
-from models.base import Base
+"""ncode_mappingテーブル."""
 import uuid
+
+from sqlalchemy import TIMESTAMP, Column, String, UniqueConstraint, func
+
+from models.base import Base
 
 
 class NcodeMapping(Base):
-    """IDとncodeのマッピングテーブル"""
+    """IDとncodeのマッピングテーブル."""
 
     __tablename__ = "ncode_mapping"
 
@@ -22,6 +25,3 @@ class NcodeMapping(Base):
     deleted_at = Column(TIMESTAMP, nullable=True)
 
     __table_args__ = (UniqueConstraint("ncode", name="uq_ncode"),)
-
-    def __repr__(self):
-        return f"<NcodeMapping(id='{self.id}', ncode='{self.ncode}', created_at='{self.created_at}', updated_at='{self.updated_at}', deleted_at='{self.deleted_at}')>"

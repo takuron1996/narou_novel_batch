@@ -13,8 +13,9 @@
 """
 
 import sys
-from config.log import console_logger
+
 from command.init_db import run
+from config.log import console_logger
 
 if __name__ == "__main__":
     args = sys.argv

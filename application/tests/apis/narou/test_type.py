@@ -1,5 +1,7 @@
+"""なろうランキングのtype関連のテスト."""
 import pytest
-from apis.narou.type import RankType, OutType
+
+from apis.narou.type import OutType, RankType
 
 
 @pytest.mark.parametrize(
@@ -17,14 +19,14 @@ from apis.narou.type import RankType, OutType
     ],
 )
 def test_rank_type_is_valid_date(rank_type, date, expected_result):
-    """RankTypeのis_valid_date_for_rank_typeメソッドのテスト"""
+    """RankTypeのis_valid_date_for_rank_typeメソッドのテスト."""
     assert (
         RankType.is_valid_date_for_rank_type(rank_type, date) == expected_result
     )
 
 
 def test_out_type():
-    """OutTypeの基本動作をテスト"""
+    """OutTypeの基本動作をテスト."""
     assert OutType.JSON.value == "json"
     assert OutType.YAML.value == "yaml"
     assert OutType.PHP.value == "php"
@@ -32,7 +34,7 @@ def test_out_type():
 
 
 def test_rank_type_members():
-    """RankTypeのメンバーが正しいかをテスト"""
+    """RankTypeのメンバーが正しいかをテスト."""
     assert RankType.DAILY.value == "d"
     assert RankType.WEEKLY.value == "w"
     assert RankType.MONTHLY.value == "m"

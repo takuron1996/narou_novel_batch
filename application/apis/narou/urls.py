@@ -1,25 +1,27 @@
-"""URL関連"""
+"""URL関連."""
 
-from apis.narou.type import RankType, OutType
 from enum import Enum
+
+from apis.narou.type import OutType, RankType
 
 
 class ParamsKey(Enum):
+    """なろうランキング用のパラメーターキー."""
     DATE = "date"
     RANK_TYPE = "rtype"
     OUTPUT_FORMAT = "out"
 
 
 class NarouRankURLBuilder:
-    """なろうランキング用のURLビルダー"""
+    """なろうランキング用のURLビルダー."""
 
     def __init__(self):
+        """初期化."""
         self._base_url = "https://api.syosetu.com/rank/rankget/"
         self._params = {ParamsKey.OUTPUT_FORMAT.value: OutType.JSON.value}
 
     def set_date(self, rank_date: str):
-        """
-        日付を設定する。
+        """日付を設定する。.
 
         Args:
             rank_date (str): 日付 (yyyymmdd形式)
@@ -31,8 +33,7 @@ class NarouRankURLBuilder:
         return self
 
     def set_rank_type(self, rank_type: RankType):
-        """
-        ランキングタイプを設定する。
+        """ランキングタイプを設定する。.
 
         Args:
             rank_type (RankType): ランキングタイプ
@@ -44,11 +45,10 @@ class NarouRankURLBuilder:
         return self
 
     def set_output_format(self, out_type: OutType):
-        """
-        出力形式を設定する。
+        """出力形式を設定する.
 
         Args:
-            output_format (OutType): アウトタイプ
+            out_type (OutType): アウトタイプ
 
         Returns:
             NarouRankURLBuilder: 自身のインスタンス
@@ -57,8 +57,7 @@ class NarouRankURLBuilder:
         return self
 
     def build(self) -> str:
-        """
-        URLを生成する。必須パラメータが設定されており、妥当性を検証する。
+        """URLを生成する。必須パラメータが設定されており、妥当性を検証する。.
 
         Returns:
             str: 生成されたURL
@@ -87,5 +86,7 @@ class NarouRankURLBuilder:
             )
 
         # クエリを組み立ててURLを生成
-        query = f"{ParamsKey.RANK_TYPE.value}={rank_date}-{rank_type.value}&{ParamsKey.OUTPUT_FORMAT.value}={self._params[ParamsKey.OUTPUT_FORMAT.value]}"
+        query = (f"{ParamsKey.RANK_TYPE.value}="
+                 f"{rank_date}-{rank_type.value}&"
+                 f"{ParamsKey.OUTPUT_FORMAT.value}={self._params[ParamsKey.OUTPUT_FORMAT.value]}")
         return f"{self._base_url}?{query}"

@@ -1,10 +1,12 @@
-from enum import Enum
+"""なろうランキングのEnum関連."""
 from datetime import datetime
+from enum import Enum
+
 from config.log import console_logger
 
 
 class RankType(Enum):
-    """なろうランキングのrtype"""
+    """なろうランキングのrtype."""
 
     DAILY = "d"
     WEEKLY = "w"
@@ -13,6 +15,33 @@ class RankType(Enum):
 
     @staticmethod
     def is_valid_date_for_rank_type(rank_type, date):
+        """指定されたランキング種別に対して、日付が有効かどうかを検証します。.
+
+        引数:
+            rank_type (RankType): 検証するランキング種別。
+                `RankType` のいずれかの値でなければなりません。
+            date (str): 検証する日付（フォーマット: "YYYYMMDD"）。
+
+        戻り値:
+            bool: 日付が指定されたランキング種別に適合する場合はTrue、それ以外はFalse。
+
+        検証ルール:
+            - `RankType.WEEKLY` の場合: 日付が火曜日でなければなりません。
+            - `RankType.MONTHLY` または `RankType.QUARTERLY` の場合:
+                 日付が月の1日でなければなりません。
+            - 日付が2013年5月1日以降でなければなりません。
+            - 無効な形式の日付が指定された場合やルールに違反した場合、
+                エラーメッセージがログに記録されます。
+
+        例外:
+            - `ValueError`: 引数 `date` が無効な形式の場合に発生します。
+
+        使用例:
+            ```python
+            valid = RankType.is_valid_date_for_rank_type(RankType.WEEKLY, "20231205")
+            print(valid)  # True（火曜日の日付であれば有効）
+            ```
+        """
         try:
             parsed_date = datetime.strptime(date, "%Y%m%d")
             if rank_type == RankType.WEEKLY and parsed_date.weekday() != 1:
@@ -38,7 +67,7 @@ class RankType(Enum):
 
 
 class OutType(Enum):
-    """なろうランキングout"""
+    """なろうランキングout."""
 
     YAML = "yaml"
     JSON = "json"

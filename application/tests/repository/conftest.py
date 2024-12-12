@@ -1,18 +1,19 @@
-"""参考: https://tech.salesnow.jp/entry/pytest-with-clean-db"""
+"""参考: https://tech.salesnow.jp/entry/pytest-with-clean-db."""
+
+from importlib import import_module
+from pathlib import Path
 
 import pytest
 from pytest_postgresql import factories
-from pytest_postgresql import factories
 from sqlalchemy import create_engine
+from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import NullPool
+
 from models.base import Base
-from sqlalchemy.engine.url import URL
-from importlib import import_module
-from pathlib import Path
-from tests.factories.rank_type import RankTypeFactory
 from tests.factories.ncode_mapping import NcodeMappingFactory
 from tests.factories.rank import RankFactory
+from tests.factories.rank_type import RankTypeFactory
 
 
 def import_migration_module(module):
@@ -31,7 +32,7 @@ postgresql_fixture = factories.postgresql("postgresql_in_docker")
 
 
 def init_db(db):
-    """テスト用DBの初期設定"""
+    """テスト用DBの初期設定."""
     # Factoryの初期設定
     RankTypeFactory._meta.sqlalchemy_session = db
     RankFactory._meta.sqlalchemy_session = db
@@ -46,7 +47,7 @@ def init_db(db):
 
 @pytest.fixture
 def db(postgresql_fixture):
-    """テスト用DBセッションをSetupするFixture"""
+    """テスト用DBセッションをSetupするFixture."""
     url = URL.create(
         drivername="postgresql",
         username=postgresql_fixture.info.user,

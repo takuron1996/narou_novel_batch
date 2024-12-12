@@ -1,5 +1,4 @@
-"""
-DB初期データ投入用
+"""DB初期データ投入用.
 
 このモジュールは指定されたディレクトリ内にあるSQLファイルを順番に読み込み、
 それらのクエリをデータベースに実行する機能を提供します。
@@ -10,14 +9,15 @@ DB初期データ投入用
 3. ソートされたSQLクエリをデータベースセッションで順次実行。
 """
 
-from config.db import get_session
 from pathlib import Path
+
 from sqlalchemy import text
+
+from config.db import get_session
 
 
 def run(directory_path):
-    """
-    対象ディレクトリ以下のSQLファイルをすべて実行する。
+    """対象ディレクトリ以下のSQLファイルをすべて実行する。.
 
     ディレクトリ内のSQLファイルを読み込み、ファイル名の先頭にある
     数字部分でソートした後、データベースセッションを使用して順次クエリを実行する。
@@ -32,9 +32,9 @@ def run(directory_path):
 
 
 def read_all_files_in_directory(directory_path):
-    """
-    指定されたディレクトリ以下のすべてのSQLファイルを読み込み、
-    内容をファイルパスとともにジェネレーターで逐次返す。
+    """指定されたディレクトリ以下のすべてのSQLファイルを読み込む.
+
+    内容はファイルパスとともにジェネレーターで逐次返す.
 
     SQLファイルは、ファイル名の先頭にある数字部分でソートされます。
     ファイル名形式が「数字.文字列.sql」であることを想定しています。
@@ -52,8 +52,7 @@ def read_all_files_in_directory(directory_path):
     """
 
     def extract_number(file_path):
-        """
-        ファイル名から先頭の数字部分を抽出する。
+        """ファイル名から先頭の数字部分を抽出する。.
 
         Args:
             file_path (Path): 対象のファイルパス。

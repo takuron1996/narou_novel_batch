@@ -1,4 +1,4 @@
-"""ロガー"""
+"""ロガー."""
 
 import tomllib
 from enum import Enum
@@ -7,13 +7,13 @@ from logging.config import dictConfig
 
 
 class LoggerName(Enum):
-    """ロガー名"""
+    """ロガー名."""
 
     CONSOLE = "console"
 
 
 def read_logger(filename):
-    """ロガーの設定を読み込む
+    """ロガーの設定を読み込む.
 
     Args:
         filename (str, optional): ログの設定ファイル（toml形式）

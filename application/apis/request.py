@@ -1,6 +1,7 @@
-"""リクエスト関連の処理"""
+"""リクエスト関連の処理."""
 
 import requests
+
 from config.log import console_logger
 
 

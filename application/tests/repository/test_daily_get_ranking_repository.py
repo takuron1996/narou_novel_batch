@@ -1,15 +1,17 @@
-import pytest
-from apis.narou.narou_data import NarouRankData
+"""なろうランキングの挿入関連のテスト."""
+from datetime import datetime
 
-from repository.daily_get_ranking_repository import ranking_insert
+import pytest
+
+from apis.narou.narou_data import NarouRankData
 from models.ncode_mapping import NcodeMapping
 from models.rank import Rank
-from datetime import datetime
+from repository.daily_get_ranking_repository import ranking_insert
 
 
 @pytest.fixture
 def initial_narou_rank_data():
-    """初期データのNarouRankDataリストを返すフィクスチャ"""
+    """初期データのNarouRankDataリストを返すフィクスチャ."""
     return [
         NarouRankData(
             id="1",
@@ -32,7 +34,7 @@ def initial_narou_rank_data():
 
 @pytest.fixture
 def duplicate_narou_rank_data():
-    """初期データのNarouRankDataリストを返すフィクスチャ"""
+    """初期データのNarouRankDataリストを返すフィクスチャ."""
     return [
         NarouRankData(
             id="3",
@@ -54,7 +56,7 @@ def duplicate_narou_rank_data():
 
 
 def test_insert_ncode_mapping(db, initial_narou_rank_data):
-    """ncode_mappingへのデータ挿入のテスト"""
+    """ncode_mappingへのデータ挿入のテスト."""
     ranking_insert(db, initial_narou_rank_data)
 
     results = db.query(NcodeMapping).order_by(NcodeMapping.id).all()
@@ -69,8 +71,7 @@ def test_insert_ncode_mapping(db, initial_narou_rank_data):
 def test_duplicate_ncode_handling(
     db, initial_narou_rank_data, duplicate_narou_rank_data
 ):
-    """重複したncodeの処理テスト"""
-
+    """重複したncodeの処理テスト."""
     # 最初のデータ挿入
     ranking_insert(db, initial_narou_rank_data)
 
@@ -90,8 +91,7 @@ def test_duplicate_ncode_handling(
 
 
 def test_rank_table_insertion(db, initial_narou_rank_data):
-    """rankテーブルへのデータ挿入テスト"""
-
+    """rankテーブルへのデータ挿入テスト."""
     # 初期データを挿入
     ranking_insert(db, initial_narou_rank_data)
 
@@ -119,8 +119,7 @@ def test_rank_table_insertion(db, initial_narou_rank_data):
 def test_rank_table_with_duplicate_ncode(
     db, initial_narou_rank_data, duplicate_narou_rank_data
 ):
-    """rankテーブルに重複したncodeが含まれていても全て取り込まれていることのテスト"""
-
+    """rankテーブルに重複したncodeが含まれていても全て取り込まれていることのテスト."""
     # 最初のデータ挿入
     ranking_insert(db, initial_narou_rank_data)
 

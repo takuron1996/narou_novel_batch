@@ -1,12 +1,11 @@
+from importlib import import_module
 from logging.config import fileConfig
-
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+from pathlib import Path
 
 from alembic import context
+from sqlalchemy import engine_from_config, pool
+
 from config.env import postgre_settings
-from importlib import import_module
-from pathlib import Path
 from models.base import Base
 
 # this is the Alembic Config object, which provides
@@ -58,7 +57,6 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-
     url = config.url
     context.configure(
         url=url,
