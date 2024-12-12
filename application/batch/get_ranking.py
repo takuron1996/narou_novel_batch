@@ -1,21 +1,22 @@
-"""日刊ランキング取得バッチ"""
+"""日刊ランキング取得バッチ."""
 
-from datetime import datetime
 import sys
-from apis.narou.urls import NarouRankURLBuilder
-from apis.narou.type import RankType
-from apis.request import request_get
-from apis.narou.narou_data import NarouRankDataMapper
-from repository.daily_get_ranking_repository import ranking_insert
+from datetime import datetime
+
 from prefect import flow, task
-from prefect.logging import get_run_logger
-from config.db import get_session
 from prefect.runtime import flow_run
+
+from apis.narou.narou_data import NarouRankDataMapper
+from apis.narou.type import RankType
+from apis.narou.urls import NarouRankURLBuilder
+from apis.request import request_get
+from config.db import get_session
+from config.log import console_logger
+from repository.daily_get_ranking_repository import ranking_insert
 
 
 def process_command_args(args):
-    """
-    コマンド引数の処理を行う関数。
+    """コマンド引数の処理を行う関数。.
 
     Args:
         args (list): コマンド引数リスト（sys.argvの代わり）
@@ -74,26 +75,24 @@ def generate_flow_run_name():
 
 @task
 def task_command_line(args):
-    """コマンド引数の処理"""
-    logger = get_run_logger()
-    logger.info("コマンド引数の処理")
+    """コマンド引数の処理."""
+    console_logger.info("コマンド引数の処理")
     try:
         rank_date, rank_type_list = process_command_args(args)
-        logger.info(f"処理対象の日付: {rank_date}")
-        logger.info(
+        console_logger.info(f"処理対象の日付: {rank_date}")
+        console_logger.info(
             f"処理対象の形式: {tuple(map(lambda x: x.name, rank_type_list))}"
         )
     except ValueError as e:
-        logger.error(f"{e}")
+        console_logger.error(f"{e}")
         sys.exit(1)
     return rank_date, rank_type_list
 
 
 @task(retries=3, retry_delay_seconds=[5, 15, 30], tags=["api"])
 def get_api(rank_date, rank_type):
-    """なろうランキングAPIを叩く"""
-    logger = get_run_logger()
-    logger.info("なろうランキングAPIを叩く")
+    """なろうランキングAPIを叩く."""
+    console_logger.info("なろうランキングAPIを叩く")
     # rank_dateを用いてURLを生成
     url = (
         NarouRankURLBuilder()
@@ -101,21 +100,20 @@ def get_api(rank_date, rank_type):
         .set_rank_type(rank_type)
         .build()
     )
-    logger.info(f"生成したURL: {url}")
+    console_logger.info(f"生成したURL: {url}")
     # GET通信でなろうランキングAPIを叩く
     response = request_get(url)
     # ・レスポンスが200以外の場合はエラーとして終了
     if response is None:
-        logger.error("レスポンスが200以外のため終了")
+        console_logger.error("レスポンスが200以外のため終了")
         sys.exit(1)
     return response
 
 
 @task(tags=["db"])
 def insert_db(response, rank_date, rank_type):
-    """DBに取得結果を入れる"""
-    logger = get_run_logger()
-    logger.info("DBに取得結果を入れる")
+    """DBに取得結果を入れる."""
+    console_logger.info("DBに取得結果を入れる")
     data = NarouRankDataMapper.map_response_to_data(
         response, rank_date, rank_type
     )
@@ -125,7 +123,7 @@ def insert_db(response, rank_date, rank_type):
 
 @flow(flow_run_name=generate_flow_run_name)
 def get_ranking(rank_date="", rank_type=""):
-    """ランキングを取得してDBに蓄積
+    """ランキングを取得してDBに蓄積.
 
     Args:
         rank_date (str, optional): ランキングの対象となる日付を "yyyymmdd" 形式で指定します。
