@@ -14,6 +14,7 @@
 | `POSTGRES_HOST`   | Postgresのホスト名     | `db`                    |
 | `POSTGRES_PORT`   | Postgresのポート番号    | `5432`                  |
 | `DEBUG`   | DEBUGモードで起動するかどうか（TRUEはDEBUGモード）    | `true`                  |
+| `PREFECT_API_URL`   | prefectのAPIを送付するURL    | `http://0.0.0.0:4200/api`                  |
 
 # Makefile コマンド説明
 
