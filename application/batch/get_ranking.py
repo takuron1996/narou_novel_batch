@@ -80,7 +80,9 @@ def task_command_line(args):
     try:
         rank_date, rank_type_list = process_command_args(args)
         logger.info(f"処理対象の日付: {rank_date}")
-        logger.info(f"処理対象の形式: {tuple(map(lambda x: x.name, rank_type_list))}")
+        logger.info(
+            f"処理対象の形式: {tuple(map(lambda x: x.name, rank_type_list))}"
+        )
     except ValueError as e:
         logger.error(f"{e}")
         sys.exit(1)
