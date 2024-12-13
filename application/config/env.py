@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings
 
 class ApplicationSettings(BaseSettings):
     """アプリケーション全体の設定を管理するクラス."""
-    DEBUG: bool
+    DEBUG: bool = False
 
 
 class PostgreSettings(BaseSettings):
