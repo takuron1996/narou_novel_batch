@@ -9,6 +9,7 @@ def request_get(
     url,
     headers=None,
     payload=None,
+    timeout=30
 ):
     """Get通信した結果のレスポンスを返す.
 
@@ -25,7 +26,7 @@ def request_get(
         正常通信できなかった場合
     """
     try:
-        response = requests.get(url=url, params=payload, headers=headers)
+        response = requests.get(url=url, params=payload, headers=headers, timeout=timeout)
         response.raise_for_status()
         response.encoding = response.apparent_encoding
         return response
