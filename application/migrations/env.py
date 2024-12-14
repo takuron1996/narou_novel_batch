@@ -35,10 +35,7 @@ config.set_section_option(
     "alembic", "POSTGRES_PASSWORD", postgre_settings.POSTGRES_PASSWORD
 )
 config.set_section_option(
-    "alembic", "POSTGRES_HOST", postgre_settings.POSTGRES_HOST
-)
-config.set_section_option(
-    "alembic", "POSTGRES_PORT", postgre_settings.POSTGRES_PORT
+    "alembic", "POSTGRES_DB", postgre_settings.POSTGRES_DB
 )
 config.set_section_option(
     "alembic", "POSTGRES_NAME", postgre_settings.POSTGRES_NAME

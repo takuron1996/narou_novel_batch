@@ -11,8 +11,7 @@
 | `POSTGRES_NAME`   | Postgresのデータベース名 | `postgres`              |
 | `POSTGRES_USER`   | Postgresのユーザー名    | `postgres`              |
 | `POSTGRES_PASSWORD` | Postgresのパスワード    | `postgres`              |
-| `POSTGRES_HOST`   | Postgresのホスト名     | `db`                    |
-| `POSTGRES_PORT`   | Postgresのポート番号    | `5432`                  |
+| `POSTGRES_DB`   | PostgresのDB名     | `db`                    |
 | `DEBUG`   | DEBUGモードで起動するかどうか（TRUEはDEBUGモード）.デフォルトはFalse    | `true`                  |
 |
 # Makefile コマンド説明

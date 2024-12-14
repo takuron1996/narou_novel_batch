@@ -20,9 +20,9 @@ class SessionFactory:
             drivername=drivername,
             username=postgre_settings.POSTGRES_USER,
             password=postgre_settings.POSTGRES_PASSWORD,
-            host=postgre_settings.POSTGRES_HOST,
+            host=postgre_settings.POSTGRES_DB,
             database=postgre_settings.POSTGRES_NAME,
-            port=postgre_settings.POSTGRES_PORT,
+            port=5432,
         )
 
     @classmethod
