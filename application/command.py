@@ -16,6 +16,7 @@ import sys
 
 from command.init_db import run
 from config.log import console_logger
+from config.env import application_settings
 
 if __name__ == "__main__":
     args = sys.argv
@@ -23,7 +24,7 @@ if __name__ == "__main__":
         console_logger.error("実行するコマンドを指定してください")
         sys.exit(1)
     if args[1] == "init_db":
-        run("./init_data")
+        run(application_settings.INIT_DATA_PATH)
     else:
         console_logger.error(f"不明なコマンド: {args[1]}")
         sys.exit(1)

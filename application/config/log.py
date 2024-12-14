@@ -4,7 +4,7 @@ import tomllib
 from enum import Enum
 from logging import getLogger
 from logging.config import dictConfig
-
+from config.env import application_settings
 
 class LoggerName(Enum):
     """ロガー名."""
@@ -22,5 +22,5 @@ def read_logger(filename):
         dictConfig(tomllib.load(file).get("logging"))
 
 
-read_logger("log.toml")
+read_logger(application_settings.LOG_CONFIG_PATH)
 console_logger = getLogger(LoggerName.CONSOLE.value)

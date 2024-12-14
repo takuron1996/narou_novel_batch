@@ -5,6 +5,8 @@ from pydantic_settings import BaseSettings
 class ApplicationSettings(BaseSettings):
     """アプリケーション全体の設定を管理するクラス."""
     DEBUG: bool = False
+    LOG_CONFIG_PATH: str = "log.toml"
+    INIT_DATA_PATH: str = "./init_data"
 
 
 class PostgreSettings(BaseSettings):
