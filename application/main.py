@@ -4,9 +4,6 @@ from prefect import serve
 from batch.get_ranking import get_ranking
 
 if __name__ == "__main__":
-    #  全て取得のローカル起動用
-    # get_ranking("20241001", "")
-
     daily_get_ranking = get_ranking.to_deployment(
         name="daily_get_ranking", cron="5 15 * * *",parameters={"rank_type": "d"})
     weekly_get_ranking = get_ranking.to_deployment(
