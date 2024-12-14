@@ -1,4 +1,5 @@
 """なろうランキング取得処理関連のテスト."""
+
 from datetime import datetime, timedelta
 
 import pytest
@@ -83,27 +84,32 @@ def test_invalid_rank_type():
         process_command_args(args)
 
 
-def test_default_rank_type():
-    """rank_typeが指定されていない場合はデフォルト値と条件に基づいたrank_type_listを使用."""
-    # rank_type未指定で特定の日付（2023年12月5日、火曜日）をテスト
+def test_default_rank_type_tuesday():
+    """rank_type未指定で特定の日付（2023年12月5日、火曜日）をテスト."""
     args = ["20231205"]  # 火曜日
     results = process_command_args(args)
     assert results[0] == "20231205"
     assert results[1] == [RankType.DAILY, RankType.WEEKLY]
 
-    # rank_type未指定で月初（2023年12月1日、金曜日）をテスト
+
+def test_default_rank_type_first_day():
+    """rank_type未指定で月初（2023年12月1日、金曜日）をテスト."""
     args = ["20231201"]  # 月初
     results = process_command_args(args)
     assert results[0] == "20231201"
     assert results[1] == [RankType.DAILY, RankType.MONTHLY, RankType.QUARTERLY]
 
-    # rank_type未指定で火曜日でも月初でもない日（2023年12月6日、水曜日）をテスト
+
+def test_default_rank_type_normal_day():
+    """rank_type未指定で火曜日でも月初でもない日（2023年12月6日、水曜日）をテスト."""
     args = ["20231206"]  # それ以外
     results = process_command_args(args)
     assert results[0] == "20231206"
     assert results[1] == [RankType.DAILY]
 
-    # rank_type未指定で全ての条件を満たす日（2024年10月1日、火曜日）をテスト
+
+def test_default_rank_type_all_conditions():
+    """rank_type未指定で全ての条件を満たす日（2024年10月1日、火曜日）をテスト."""
     args = ["20241001"]  # 火曜日かつ月初
     results = process_command_args(args)
     assert results[0] == "20241001"
@@ -115,27 +121,32 @@ def test_default_rank_type():
     ]
 
 
-def test_empty_rank_type_argument():
-    """rank_typeが空文字の場合は条件に基づいたrank_type_listを使用."""
-    # rank_typeが空文字で特定の日付（2023年12月5日、火曜日）をテスト
+def test_empty_rank_type_argument_tuesday():
+    """rank_typeが空文字で特定の日付（2023年12月5日、火曜日）をテスト。."""
     args = ["20231205", ""]
     results = process_command_args(args)
     assert results[0] == "20231205"
     assert results[1] == [RankType.DAILY, RankType.WEEKLY]
 
-    # rank_typeが空文字で月初（2023年12月1日、金曜日）をテスト
+
+def test_empty_rank_type_argument_month_start():
+    """rank_typeが空文字で月初（2023年12月1日、金曜日）をテスト。."""
     args = ["20231201", ""]
     results = process_command_args(args)
     assert results[0] == "20231201"
     assert results[1] == [RankType.DAILY, RankType.MONTHLY, RankType.QUARTERLY]
 
-    # rank_typeが空文字で火曜日でも月初でもない日（2023年12月6日、水曜日）をテスト
+
+def test_empty_rank_type_argument_other_day():
+    """rank_typeが空文字で火曜日でも月初でもない日（2023年12月6日、水曜日）をテスト。."""
     args = ["20231206", ""]
     results = process_command_args(args)
     assert results[0] == "20231206"
     assert results[1] == [RankType.DAILY]
 
-    # rank_typeが空文字で全ての条件を満たす日（2024年10月1日、火曜日）をテスト
+
+def test_empty_rank_type_argument_all_conditions():
+    """rank_typeが空文字で全ての条件を満たす日（2024年10月1日、火曜日）をテスト。."""
     args = ["20241001", ""]
     results = process_command_args(args)
     assert results[0] == "20241001"
