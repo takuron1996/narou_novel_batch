@@ -11,7 +11,9 @@ if __name__ == "__main__":
     monthly_get_ranking = get_ranking.to_deployment(
         name="monthly_get_ranking", cron="5 15 1 * *", parameters={"rank_type": "m"})
     quarterly_get_ranking = get_ranking.to_deployment(
-        name="quarterly_get_ranking", cron="5 15 1 1,4,7,10 *", parameters={"rank_type": "q"})
+        name="quarterly_get_ranking",
+        cron="5 15 1 1,4,7,10 *",
+        parameters={"rank_type": "q"})
     serve(
         daily_get_ranking, weekly_get_ranking, monthly_get_ranking, quarterly_get_ranking
     )
