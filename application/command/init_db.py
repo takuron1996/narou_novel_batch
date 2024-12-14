@@ -14,6 +14,7 @@ from pathlib import Path
 from sqlalchemy import text
 
 from config.db import get_session
+from config.log import console_logger
 
 
 def run(directory_path):
@@ -77,6 +78,6 @@ def read_all_files_in_directory(directory_path):
                 with file_path.open("r") as f:
                     yield file_path, f.read()  # ファイルパスと内容をジェネレーターで返す
             except Exception as e:
-                print(f"Failed to process {file_path}: {e}")
+                console_logger.error(f"Failed to process {file_path}: {e}")
     except Exception as e:
-        print(f"Error processing the directory {directory_path}: {e}")
+        console_logger.error(f"Error processing the directory {directory_path}: {e}")
