@@ -1,4 +1,5 @@
 """なろうAPIのランキング関連."""
+
 import uuid
 from dataclasses import dataclass
 from datetime import date, datetime

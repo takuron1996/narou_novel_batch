@@ -1,4 +1,5 @@
 """なろうランキングデータ投入関連."""
+
 from dataclasses import asdict
 from pathlib import Path
 

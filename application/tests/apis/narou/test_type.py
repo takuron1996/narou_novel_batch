@@ -1,4 +1,5 @@
 """なろうランキングのtype関連のテスト."""
+
 import pytest
 
 from apis.narou.type import OutType, RankType

@@ -1,4 +1,5 @@
 """なろうランキングの挿入関連のテスト."""
+
 from datetime import datetime
 
 import pytest

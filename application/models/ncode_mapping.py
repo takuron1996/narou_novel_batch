@@ -1,4 +1,5 @@
 """ncode_mappingテーブル."""
+
 import uuid
 
 from sqlalchemy import TIMESTAMP, Column, String, UniqueConstraint, func

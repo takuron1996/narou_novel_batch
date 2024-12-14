@@ -1,4 +1,5 @@
 """DB関連の設定."""
+
 from contextlib import contextmanager
 from pathlib import Path
 

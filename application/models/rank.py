@@ -1,4 +1,5 @@
 """rankテーブル."""
+
 from sqlalchemy import (
     TIMESTAMP,
     Column,

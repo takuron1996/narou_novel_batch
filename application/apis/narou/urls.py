@@ -7,6 +7,7 @@ from apis.narou.type import OutType, RankType
 
 class ParamsKey(Enum):
     """なろうランキング用のパラメーターキー."""
+
     DATE = "date"
     RANK_TYPE = "rtype"
     OUTPUT_FORMAT = "out"
@@ -86,7 +87,9 @@ class NarouRankURLBuilder:
             )
 
         # クエリを組み立ててURLを生成
-        query = (f"{ParamsKey.RANK_TYPE.value}="
-                 f"{rank_date}-{rank_type.value}&"
-                 f"{ParamsKey.OUTPUT_FORMAT.value}={self._params[ParamsKey.OUTPUT_FORMAT.value]}")
+        query = (
+            f"{ParamsKey.RANK_TYPE.value}="
+            f"{rank_date}-{rank_type.value}&"
+            f"{ParamsKey.OUTPUT_FORMAT.value}={self._params[ParamsKey.OUTPUT_FORMAT.value]}"
+        )
         return f"{self._base_url}?{query}"

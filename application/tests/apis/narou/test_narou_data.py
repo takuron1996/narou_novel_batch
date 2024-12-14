@@ -1,4 +1,5 @@
 """narou_data.py関連のテスト."""
+
 import datetime
 from unittest.mock import Mock
 
@@ -49,9 +50,6 @@ def test_map_response_to_data_with_invalid_response(invalid_response_mock):
             invalid_response_mock, "20230501", RankType.DAILY
         )
     assert (
-        (
-            "NarouRankData.__init__() "
-            "missing 2 required positional arguments: 'pt' and 'rank'"
-        )
-        in str(excinfo.value)
-    )
+        "NarouRankData.__init__() "
+        "missing 2 required positional arguments: 'pt' and 'rank'"
+    ) in str(excinfo.value)

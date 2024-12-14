@@ -80,4 +80,6 @@ def read_all_files_in_directory(directory_path):
             except Exception as e:
                 console_logger.error(f"Failed to process {file_path}: {e}")
     except Exception as e:
-        console_logger.error(f"Error processing the directory {directory_path}: {e}")
+        console_logger.error(
+            f"Error processing the directory {directory_path}: {e}"
+        )

@@ -1,4 +1,5 @@
 """日刊ランキング取得バッチ."""
+
 from datetime import datetime
 
 from prefect import flow, task

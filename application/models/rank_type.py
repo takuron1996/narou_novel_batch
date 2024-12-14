@@ -1,4 +1,5 @@
 """rank_typeテーブル."""
+
 from sqlalchemy import (
     Column,
     String,

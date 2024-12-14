@@ -24,6 +24,7 @@ down:
 	docker compose down
 
 check:
+	@$(POETRY_RUN) black .
 	@$(POETRY_RUN) ruff check . --fix --unsafe-fixes
 
 install:
