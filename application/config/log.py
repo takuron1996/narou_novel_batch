@@ -4,7 +4,9 @@ import tomllib
 from enum import Enum
 from logging import getLogger
 from logging.config import dictConfig
+
 from config.env import application_settings
+
 
 class LoggerName(Enum):
     """ロガー名."""

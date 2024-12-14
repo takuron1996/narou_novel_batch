@@ -15,8 +15,8 @@
 import sys
 
 from command.init_db import run
-from config.log import console_logger
 from config.env import application_settings
+from config.log import console_logger
 
 if __name__ == "__main__":
     args = sys.argv
