@@ -46,7 +46,7 @@ class RankType(Enum):
         try:
             parsed_date = datetime.strptime(date, "%Y%m%d")
             if rank_type == RankType.WEEKLY and parsed_date.weekday() != 1:
-                console_logger.error(
+                console_logger.warning(
                     "週間を指定する場合の日付は火曜日の日付を指定"
                 )
                 return False
@@ -54,16 +54,16 @@ class RankType(Enum):
                 rank_type in (RankType.MONTHLY, RankType.QUARTERLY)
                 and parsed_date.day != 1
             ):
-                console_logger.error(
+                console_logger.warning(
                     "月間、四半期を取得する場合、日付は1日を指定"
                 )
                 return False
             elif parsed_date < datetime(2013, 5, 1):
-                console_logger.error("2013年5月1日以降の日付を指定")
+                console_logger.warning("2013年5月1日以降の日付を指定")
                 return False
             return True
         except ValueError:
-            console_logger.error(f"日付 {date} は無効な形式です。")
+            console_logger.warning(f"日付 {date} は無効な形式です。")
             return False
 
 
