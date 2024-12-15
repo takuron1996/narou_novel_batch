@@ -5,7 +5,7 @@ import requests
 from config.log import console_logger
 
 
-def request_get(url, headers=None, payload=None, timeout=30):
+def request_get(url, headers=None, payload=None, timeout=60):
     """Get通信した結果のレスポンスを返す.
 
     Parameters
