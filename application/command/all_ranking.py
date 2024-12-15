@@ -35,9 +35,7 @@ def run():
     error_date_list = []
     for date in generate_date_strings("20130501"):
         try:
-            error_date_list.append(date)
             get_ranking(date)
-            error_date_list.pop()
         except Exception:
-            pass
+            error_date_list.append(date)
     console_logger.error(f"{error_date_list}")
