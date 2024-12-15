@@ -15,10 +15,16 @@ def generate_date_strings(start_date: str):
     Returns:
         list[str]: 開始日から現在日までの日付文字列リスト。
     """
+    if not start_date.isdigit() or len(start_date) != 8:
+        raise ValueError("開始日は8桁の数字（YYYYMMDD）で指定してください")
+
     start = datetime.strptime(start_date, "%Y%m%d")
     today = datetime.now()
-    date_list = []
 
+    if start > today:
+        raise ValueError("開始日は現在日より前の日付を指定してください")
+
+    date_list = []
     while start <= today:
         date_list.append(start.strftime("%Y%m%d"))
         start += timedelta(days=1)
