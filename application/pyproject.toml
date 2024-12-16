@@ -1,0 +1,134 @@
+[tool.poetry]
+name = "narou_novel_batch"
+version = "2.0.0"
+description = "なろう小説のAPIに対してバッチ処理"
+authors = ["takuron1996"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+sqlalchemy = "^2.0.36"
+psycopg2 = "^2.9.10"
+alembic = "^1.14.0"
+pydantic-settings = "^2.6.1"
+requests = "^2.32.3"
+prefect = "^3.1.5"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+pytest-cov = "^6.0.0"
+pytest-clarity = "^1.0.1"
+pytest-randomly = "^3.16.0"
+pytest-mock = "^3.14.0"
+pytest-xdist = "^3.6.1"
+ruff = "^0.8.0"
+factory-boy = "^3.3.1"
+pytest-postgresql = "^6.1.1"
+black = "^24.10.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+# .coveragercの設定
+[tool.coverage.run]
+branch = true
+# TODO: source決定後に記述
+# source = ["practice/", "config/"]
+omit = ["*/__init__.py", "*/tests/*"]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "if self\\.debug",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if 0:",
+  "if __name__ == .__main__.:",
+  "@(abc\\.)?abstractmethod",
+]
+ignore_errors = true
+
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.ruff]
+# Enable the pycodestyle (`E`) and Pyflakes (`F`) rules by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+lint.select = ["E", "F", "W", "D", "I"]
+lint.ignore = []
+
+extend-exclude = ["migrations"]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+lint.fixable = ["ALL"]
+lint.unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+  ".bzr",
+  ".direnv",
+  ".eggs",
+  ".git",
+  ".git-rewrite",
+  ".hg",
+  ".mypy_cache",
+  ".nox",
+  ".pants.d",
+  ".pytype",
+  ".ruff_cache",
+  ".svn",
+  ".tox",
+  ".venv",
+  "__pypackages__",
+  "_build",
+  "buck-out",
+  "build",
+  "dist",
+  "node_modules",
+  "venv",
+]
+
+line-length = 90
+
+# Allow unused variables when underscore-prefixed.
+lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.12
+target-version = "py312"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["ALL"]
+
+[tool.black]
+line-length = 80
+include = '\.py$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+[tool.pytest.ini_options]
+postgresql_host = "db"
+postgresql_port = "5432"
+postgresql_user = "postgres"
+postgresql_password = "postgres"

@@ -1,0 +1,13 @@
+[logging]
+version = 1
+[logging.formatters.simple]
+format = "[%(levelname)s] %(name)s %(asctime)s - %(message)s "
+[logging.handlers.consoleHandler]
+class = "logging.StreamHandler"
+level = "DEBUG"
+formatter = "simple"
+stream = "ext://sys.stdout"
+[logging.loggers.console]
+level = "DEBUG"
+handlers = ["consoleHandler"]
+propagate = "no"
