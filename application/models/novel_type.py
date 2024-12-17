@@ -16,4 +16,6 @@ class NovelType(Base):
         nullable=False,
         comment="ノベルの形式のコード",
     )
-    name = Column(String(2), nullable=False, comment="ノベルの形式名")
+    name = Column(
+        String(2), nullable=False, unique=True, comment="ノベルの形式名"
+    )
