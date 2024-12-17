@@ -16,8 +16,10 @@ class Keyword(Base):
     keyword_id = Column(
         UUID(as_uuid=True),
         primary_key=True,
-        default=uuid.uuid4(),
+        default=uuid.uuid4,
         nullable=False,
         comment="キーワードのID",
     )
-    name = Column(String(128), nullable=False, comment="キーワード名")
+    name = Column(
+        String(128), nullable=False, unique=True, comment="キーワード名"
+    )
