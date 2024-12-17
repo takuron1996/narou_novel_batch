@@ -19,5 +19,7 @@ class Author(Base):
         nullable=False,
         comment="作者のID",
     )
-    userid = Column(Integer, nullable=False, comment="作者のユーザーID(数値)")
+    userid = Column(
+        Integer, nullable=False, unique=True, comment="作者のユーザーID(数値)"
+    )
     writer = Column(String(128), nullable=False, comment="作者名")
