@@ -2,8 +2,9 @@
 
 import uuid
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date
 
+from common.datetime_util import jst_strptime
 from config.log import console_logger
 
 
@@ -34,9 +35,7 @@ class NarouRankDataMapper:
         data_list = []
         try:
             for data in response.json():
-                data["rank_date"] = datetime.strptime(
-                    str(rank_date), "%Y%m%d"
-                ).date()
+                data["rank_date"] = jst_strptime(str(rank_date)).date()
                 data["id"] = str(uuid.uuid4())
                 data["rank_type"] = rank_type.value
                 data_list.append(NarouRankData(**data))
