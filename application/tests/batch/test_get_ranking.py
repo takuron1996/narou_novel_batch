@@ -3,6 +3,7 @@
 from datetime import timedelta
 
 import pytest
+from freezegun import freeze_time
 
 from apis.narou.type import RankType
 from batch.get_ranking import process_command_args
@@ -25,6 +26,7 @@ def test_invalid_date_format():
         process_command_args(args)
 
 
+@freeze_time("2024-12-02 12:00:00+09:00")
 def test_no_argument():
     """引数が指定されていない場合は現在日時とデフォルトのrank_typeを使用."""
     args = []
@@ -34,6 +36,7 @@ def test_no_argument():
     assert results[1] == [RankType.DAILY]
 
 
+@freeze_time("2024-12-02 12:00:00+09:00")
 def test_empty_date_argument():
     """空のrank_date引数が渡された場合は現在日とする."""
     args = ["", "d"]
