@@ -1,10 +1,16 @@
-"""empty message
+"""novel_typeテーブルの作成
 
 Revision ID: d6c12aa8111c
 Revises: 07fdab18fd41
 Create Date: 2024-12-16 15:03:59.563284
 
+このマイグレーションでは、novel_typeテーブルを作成します。
+- 主キー: `code`（ノベルの形式を示すコード）
+- カラム:
+  - `code`: ノベルの形式のコード（整数）
+  - `name`: ノベルの形式名（2文字の文字列）
 """
+
 
 from typing import Sequence, Union
 

@@ -1,9 +1,14 @@
-"""empty message
+"""authorテーブルの作成
 
 Revision ID: cfcb3ff9d4c9
 Revises: 8f38374865e2
 Create Date: 2024-12-17 05:30:21.491769
 
+このマイグレーションでは、authorテーブルを作成します。
+- 主キー: `author_id`（UUID形式）
+- カラム:
+  - `userid`: 作者の数値形式のユーザーID
+  - `writer`: 作者名
 """
 
 from typing import Sequence, Union

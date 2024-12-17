@@ -1,10 +1,12 @@
-"""empty message
+"""authorテーブルのuseridに一意制約を追加
 
 Revision ID: 9fc1dd8c5dd9
 Revises: 498a9eaf15d1
 Create Date: 2024-12-17 16:26:25.635258
 
+このマイグレーションでは、authorテーブルのuseridカラムに一意制約を追加します。
 """
+
 
 from typing import Sequence, Union
 

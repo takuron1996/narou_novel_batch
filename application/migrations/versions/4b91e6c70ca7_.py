@@ -1,9 +1,11 @@
-"""empty message
+"""novel_keywordsテーブルの追加
 
 Revision ID: 4b91e6c70ca7
 Revises: ce4433ed9766
 Create Date: 2024-12-17 05:46:29.424878
 
+このマイグレーションでは、'novel_keywords'テーブルを追加します。
+このテーブルは'ncode_mapping'テーブルと'keyword'テーブルに対する外部キー制約を持ちます。
 """
 
 from typing import Sequence, Union

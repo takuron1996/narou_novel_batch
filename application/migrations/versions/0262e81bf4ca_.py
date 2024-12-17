@@ -1,9 +1,15 @@
-"""empty message
+"""biggenreテーブルおよびgenreテーブルの作成
 
 Revision ID: 0262e81bf4ca
 Revises: d6c12aa8111c
 Create Date: 2024-12-16 15:26:12.044629
 
+このマイグレーションでは、以下の2つのテーブルを作成します:
+1. `biggenre`テーブル
+   - 大ジャンル情報を保持し、`code`（大ジャンルのコード）を主キーとします。
+2. `genre`テーブル
+   - ジャンル情報を保持し、`biggenre`テーブルの`code`と外部キー制約を持ちます。
+   - ジャンル名や関連する大ジャンルのコードを格納します。
 """
 
 from typing import Sequence, Union

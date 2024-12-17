@@ -1,9 +1,14 @@
-"""empty message
+"""keywordテーブルの作成とID型のUUID化
 
 Revision ID: 8f38374865e2
 Revises: 0262e81bf4ca
 Create Date: 2024-12-17 01:16:19.875337
 
+このマイグレーションでは、以下の変更を行います:
+1. 新しい`keyword`テーブルの作成
+   - キーワードIDとキーワード名を保持
+2. `ncode_mapping`および`rank`テーブルの`id`カラムをVARCHARからUUID型に変更
+3. `rank`テーブルの外部キー制約を一時的に削除し、UUID型変更後に再設定
 """
 
 from typing import Sequence, Union

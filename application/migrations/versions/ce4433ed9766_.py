@@ -1,10 +1,21 @@
-"""empty message
+"""novelテーブルの作成
 
 Revision ID: ce4433ed9766
 Revises: cfcb3ff9d4c9
 Create Date: 2024-12-17 05:41:49.753534
 
+このマイグレーションでは、novelテーブルを作成します。
+- 主キー: `id`（UUID形式）
+- 外部キー:
+  - `author_id` → `author`テーブル
+  - `biggenre_code` → `biggenre`テーブル
+  - `genre_code` → `genre`テーブル
+  - `id` → `ncode_mapping`テーブル
+  - `novel_type_id` → `novel_type`テーブル
+- その他のカラム:
+  - 作品名、ジャンル情報、R15、ボーイズラブ、ガールズラブ、残酷描写、異世界転生・転移の有無を示すフラグを含む。
 """
+
 
 from typing import Sequence, Union
 

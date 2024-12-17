@@ -1,10 +1,13 @@
-"""empty message
+"""id列のデータ型を変更 (VARCHAR(26) → String(36))
 
 Revision ID: 08f7d1c486c3
 Revises: 93ac550ce511
 Create Date: 2024-12-09 16:46:50.878172
 
+このマイグレーションでは、ncode_mappingテーブルとrankテーブルのid列のデータ型を
+VARCHAR(26)からString(36)に変更します。
 """
+
 
 from typing import Sequence, Union
 

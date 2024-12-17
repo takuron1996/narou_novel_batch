@@ -1,10 +1,13 @@
-"""empty message
+"""novel_typeテーブルのnameカラムにユニーク制約を追加
 
 Revision ID: d6310ca487fc
 Revises: 9fc1dd8c5dd9
 Create Date: 2024-12-17 16:42:46.085925
 
+このマイグレーションでは、novel_typeテーブルの`name`カラムにユニーク制約を追加します。
+これにより、ノベル形式名の重複登録を防止します。
 """
+
 
 from typing import Sequence, Union
 

@@ -1,10 +1,17 @@
-"""empty message
+"""ncode_mappingテーブルとrankテーブルの作成
 
 Revision ID: 93ac550ce511
 Revises: 
 Create Date: 2024-12-06 17:16:31.130725
 
+このマイグレーションでは、以下の2つのテーブルを作成します:
+1. `ncode_mapping`テーブル
+   - ID、ncode、作成日時、更新日時、削除日時を保持し、`ncode`は一意制約を持つ。
+2. `rank`テーブル
+   - ランク情報を保持し、`ncode_mapping`テーブルのIDと外部キー制約を持つ。
+   - 複合主キーとして`id`、`rank`、`rank_date`を設定。
 """
+
 
 from typing import Sequence, Union
 
