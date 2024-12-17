@@ -4,6 +4,7 @@ import datetime
 
 import factory
 
+from common.datetime_util import jst_now
 from models.rank import Rank
 
 
@@ -24,10 +25,6 @@ class RankFactory(factory.alchemy.SQLAlchemyModelFactory):
     rank_date = factory.LazyFunction(
         lambda: datetime.date.today()
     )  # 今日の日付を生成
-    created_at = factory.LazyFunction(
-        lambda: datetime.datetime.now()
-    )  # 現在時刻を使用
-    updated_at = factory.LazyFunction(
-        lambda: datetime.datetime.now()
-    )  # 現在時刻を使用
+    created_at = factory.LazyFunction(lambda: jst_now())  # 現在時刻を使用
+    updated_at = factory.LazyFunction(lambda: jst_now())  # 現在時刻を使用
     deleted_at = None

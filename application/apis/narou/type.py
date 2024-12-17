@@ -1,8 +1,8 @@
 """なろうランキングのEnum関連."""
 
-from datetime import datetime
 from enum import Enum
 
+from common.datetime_util import jst_strptime
 from config.log import console_logger
 
 
@@ -44,7 +44,7 @@ class RankType(Enum):
             ```
         """
         try:
-            parsed_date = datetime.strptime(date, "%Y%m%d")
+            parsed_date = jst_strptime(date)
             if rank_type == RankType.WEEKLY and parsed_date.weekday() != 1:
                 console_logger.warning(
                     "週間を指定する場合の日付は火曜日の日付を指定"
@@ -58,7 +58,7 @@ class RankType(Enum):
                     "月間、四半期を取得する場合、日付は1日を指定"
                 )
                 return False
-            elif parsed_date < datetime(2013, 5, 1):
+            elif parsed_date < jst_strptime("20130501"):
                 console_logger.warning("2013年5月1日以降の日付を指定")
                 return False
             return True

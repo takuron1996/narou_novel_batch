@@ -1,7 +1,5 @@
 """日刊ランキング取得バッチ."""
 
-from datetime import datetime
-
 from prefect import flow, task
 from prefect.runtime import flow_run
 
@@ -9,6 +7,7 @@ from apis.narou.narou_data import NarouRankDataMapper
 from apis.narou.type import RankType
 from apis.narou.urls import NarouRankURLBuilder
 from apis.request import request_get
+from common.datetime_util import jst_now, jst_strptime
 from config.db import get_session
 from config.log import console_logger
 from repository.daily_get_ranking_repository import ranking_insert
@@ -28,15 +27,15 @@ def process_command_args(args):
         rank_date = args[0]
         try:
             # 日付形式の確認
-            parsed_date = datetime.strptime(rank_date, "%Y%m%d")
+            parsed_date = jst_strptime(rank_date)
             # 未来日のチェック
-            if parsed_date > datetime.now():
+            if parsed_date > jst_now():
                 raise ValueError("rank_dateは未来日を指定できません。")
         except ValueError as e:
             raise ValueError(f"無効なrank_dateが指定されました: {e}")
     else:
         # 引数が指定されていない場合は現在日時を使用
-        rank_date = datetime.now().strftime("%Y%m%d")
+        rank_date = jst_now().strftime("%Y%m%d")
 
     # rank_typeの処理
     rank_type_list = []
@@ -66,7 +65,7 @@ def generate_flow_run_name():
     parameters = flow_run.parameters
     rank_date = parameters["rank_date"]
     if not rank_date:
-        rank_date = datetime.now().strftime("%Y%m%d")
+        rank_date = jst_now().strftime("%Y%m%d")
     rank_type = parameters["rank_type"]
     if not rank_type:
         rank_type = "all"
