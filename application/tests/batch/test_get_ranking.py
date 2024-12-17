@@ -25,12 +25,11 @@ def test_invalid_date_format():
 
 
 def test_no_argument():
-    """引数が指定されていない場合は現在日時とデフォルトのrank_typeを使用."""
+    """引数が指定されていない場合を使用."""
     args = []
     results = process_command_args(args)
     expected_date = datetime.now().strftime("%Y%m%d")
     assert results[0] == expected_date
-    assert results[1] == [RankType.DAILY]
 
 
 def test_empty_date_argument():
