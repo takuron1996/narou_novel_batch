@@ -1,10 +1,11 @@
 """なろうランキングの挿入関連のテスト."""
 
-from datetime import datetime
+# from datetime import datetime
 
 import pytest
 
 from apis.narou.narou_data import NarouRankData
+from common.datetime_util import jst_strptime
 from models.ncode_mapping import NcodeMapping
 from models.rank import Rank
 from repository.daily_get_ranking_repository import ranking_insert
@@ -103,17 +104,11 @@ def test_rank_table_insertion(db, initial_narou_rank_data):
     assert len(rank_results) == 2
     assert rank_results[0].id == "1"
     assert rank_results[0].rank == 1
-    assert (
-        rank_results[0].rank_date
-        == datetime.strptime("20241211", "%Y%m%d").date()
-    )
+    assert rank_results[0].rank_date == jst_strptime("20241211").date()
     assert rank_results[0].rank_type == "d"
     assert rank_results[1].id == "2"
     assert rank_results[1].rank == 2
-    assert (
-        rank_results[1].rank_date
-        == datetime.strptime("20241211", "%Y%m%d").date()
-    )
+    assert rank_results[1].rank_date == jst_strptime("20241211").date()
     assert rank_results[1].rank_type == "d"
 
 
@@ -134,33 +129,21 @@ def test_rank_table_with_duplicate_ncode(
     assert len(rank_results) == 4
     assert rank_results[0].id == "1"
     assert rank_results[0].rank == 1
-    assert (
-        rank_results[0].rank_date
-        == datetime.strptime("20241211", "%Y%m%d").date()
-    )
+    assert rank_results[0].rank_date == jst_strptime("20241211").date()
     assert rank_results[0].rank_type == "d"
 
     assert rank_results[1].id == "2"
     assert rank_results[1].rank == 2
-    assert (
-        rank_results[1].rank_date
-        == datetime.strptime("20241211", "%Y%m%d").date()
-    )
+    assert rank_results[1].rank_date == jst_strptime("20241211").date()
     assert rank_results[1].rank_type == "d"
 
     # 重複ncodeでもrankに追加される
     assert rank_results[2].id == "1"
     assert rank_results[2].rank == 1
-    assert (
-        rank_results[2].rank_date
-        == datetime.strptime("20241212", "%Y%m%d").date()
-    )
+    assert rank_results[2].rank_date == jst_strptime("20241212").date()
     assert rank_results[2].rank_type == "d"
 
     assert rank_results[3].id == "4"
     assert rank_results[3].rank == 2
-    assert (
-        rank_results[3].rank_date
-        == datetime.strptime("20241212", "%Y%m%d").date()
-    )
+    assert rank_results[3].rank_date == jst_strptime("20241212").date()
     assert rank_results[3].rank_type == "d"
