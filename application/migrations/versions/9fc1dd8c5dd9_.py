@@ -7,7 +7,6 @@ Create Date: 2024-12-17 16:26:25.635258
 このマイグレーションでは、authorテーブルのuseridカラムに一意制約を追加します。
 """
 
-
 from typing import Sequence, Union
 
 from alembic import op

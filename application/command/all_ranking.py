@@ -1,8 +1,9 @@
 """全てのランキングを投入用."""
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from batch.get_ranking import get_ranking
+from common.datetime_util import jst_now, jst_strptime
 from config.log import console_logger
 
 
@@ -18,8 +19,8 @@ def generate_date_strings(start_date: str):
     if not start_date.isdigit() or len(start_date) != 8:
         raise ValueError("開始日は8桁の数字（YYYYMMDD）で指定してください")
 
-    start = datetime.strptime(start_date, "%Y%m%d")
-    today = datetime.now()
+    start = jst_strptime(start_date)
+    today = jst_now()
 
     if start > today:
         raise ValueError("開始日は現在日より前の日付を指定してください")

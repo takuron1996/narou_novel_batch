@@ -8,7 +8,6 @@ Create Date: 2024-12-17 15:45:25.624094
 これにより、重複するキーワード名の登録を防止します。
 """
 
-
 from typing import Sequence, Union
 
 from alembic import op

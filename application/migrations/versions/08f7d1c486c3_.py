@@ -8,7 +8,6 @@ Create Date: 2024-12-09 16:46:50.878172
 VARCHAR(26)からString(36)に変更します。
 """
 
-
 from typing import Sequence, Union
 
 from alembic import op

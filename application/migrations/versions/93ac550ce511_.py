@@ -12,7 +12,6 @@ Create Date: 2024-12-06 17:16:31.130725
    - 複合主キーとして`id`、`rank`、`rank_date`を設定。
 """
 
-
 from typing import Sequence, Union
 
 from alembic import op

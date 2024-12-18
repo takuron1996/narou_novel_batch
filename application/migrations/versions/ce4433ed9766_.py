@@ -16,7 +16,6 @@ Create Date: 2024-12-17 05:41:49.753534
   - 作品名、ジャンル情報、R15、ボーイズラブ、ガールズラブ、残酷描写、異世界転生・転移の有無を示すフラグを含む。
 """
 
-
 from typing import Sequence, Union
 
 from alembic import op

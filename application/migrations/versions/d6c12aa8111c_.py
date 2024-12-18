@@ -11,7 +11,6 @@ Create Date: 2024-12-16 15:03:59.563284
   - `name`: ノベルの形式名（2文字の文字列）
 """
 
-
 from typing import Sequence, Union
 
 from alembic import op

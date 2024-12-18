@@ -8,7 +8,6 @@ Create Date: 2024-12-17 16:42:46.085925
 これにより、ノベル形式名の重複登録を防止します。
 """
 
-
 from typing import Sequence, Union
 
 from alembic import op

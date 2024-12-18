@@ -7,6 +7,7 @@ Create Date: 2024-12-11 09:46:16.957015
 このマイグレーションでは、rankテーブルの主キーを変更し、新たにrank_typeテーブルを作成します。
 rankテーブルにはrank_type列を追加し、rank_typeテーブルとの外部キー制約を設定します。
 """
+
 from typing import Sequence, Union
 
 from alembic import op
