@@ -12,17 +12,17 @@ if __name__ == "__main__":
     )
     weekly_get_ranking = get_ranking.to_deployment(
         name="weekly_get_ranking",
-        cron="5 15 * * 2",
+        cron="5 15 * * 1",
         parameters={"rank_type": "w"},
     )
     monthly_get_ranking = get_ranking.to_deployment(
         name="monthly_get_ranking",
-        cron="5 15 1 * *",
+        cron="5 15 L * *",
         parameters={"rank_type": "m"},
     )
     quarterly_get_ranking = get_ranking.to_deployment(
         name="quarterly_get_ranking",
-        cron="5 15 1 1,4,7,10 *",
+        cron="5 15 31 12,3,6,9 *",
         parameters={"rank_type": "q"},
     )
     serve(
