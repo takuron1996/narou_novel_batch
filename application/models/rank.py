@@ -2,6 +2,7 @@
 
 from sqlalchemy import (
     TIMESTAMP,
+    UUID,
     Column,
     Date,
     ForeignKey,
@@ -21,7 +22,7 @@ class Rank(Base):
 
     __tablename__ = "rank"
 
-    id = Column(String(36), ForeignKey(NcodeMapping.id), nullable=False)
+    id = Column(UUID(as_uuid=True), ForeignKey(NcodeMapping.id), nullable=False)
     rank = Column(Integer, nullable=False)
     rank_date = Column(Date, nullable=False)
     rank_type = Column(String(1), ForeignKey(RankType.type), nullable=False)
