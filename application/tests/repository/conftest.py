@@ -39,6 +39,92 @@ postgresql_in_docker = factories.postgresql_noproc()
 postgresql_fixture = factories.postgresql("postgresql_in_docker")
 
 
+def init_rank_type():
+    """rank_typeの初期データ."""
+    for type in ("d", "w", "m", "q"):
+        RankTypeFactory.create(type=type)
+
+
+def init_novel_type():
+    """novel_typeの初期データ."""
+    for code, name in ((1, "連載"), (2, "短編")):
+        NovelTypeFactory.create(code=code, name=name)
+
+
+def init_biggenre():
+    """biggenreの初期データ."""
+    for code, name in (
+        (0, "未選択"),
+        (1, "恋愛"),
+        (2, "ファンタジー"),
+        (3, "文芸"),
+        (4, "SF"),
+        (99, "その他"),
+        (98, "ノンジャンル"),
+    ):
+        BigGenreFactory.create(code=code, name=name)
+
+
+def init_genre():
+    """genreの初期データ."""
+    for code, name in (
+        (0, "未選択〔未選択〕"),
+        (101, "異世界〔恋愛〕"),
+        (102, "現実世界〔恋愛〕"),
+        (201, "ハイファンタジー〔ファンタジー〕"),
+        (202, "ローファンタジー〔ファンタジー〕"),
+        (301, "純文学〔文芸〕"),
+        (302, "ヒューマンドラマ〔文芸〕"),
+        (303, "歴史〔文芸〕"),
+        (304, "推理〔文芸〕"),
+        (305, "ホラー〔文芸〕"),
+        (306, "アクション〔文芸〕"),
+        (307, "コメディー〔文芸〕"),
+        (401, "VRゲーム〔SF〕"),
+        (402, "宇宙〔SF〕"),
+        (403, "空想科学〔SF〕"),
+        (404, "パニック〔SF〕"),
+        (9901, "童話〔その他〕"),
+        (9902, "詩〔その他〕"),
+        (9903, "エッセイ〔その他〕"),
+        (9904, "リプレイ〔その他〕"),
+        (9999, "その他〔その他〕"),
+        (9801, "ノンジャンル〔ノンジャンル〕"),
+    ):
+        GenreFactory.create(code=code, name=name)
+
+
+def init_biggenre_genre():
+    """biggenre_genreの初期データ."""
+    for biggenre_code, genre_code in (
+        (0, 0),
+        (1, 101),
+        (1, 102),
+        (2, 201),
+        (2, 202),
+        (3, 301),
+        (3, 302),
+        (3, 303),
+        (3, 304),
+        (3, 305),
+        (3, 306),
+        (3, 307),
+        (4, 401),
+        (4, 402),
+        (4, 403),
+        (4, 404),
+        (99, 9901),
+        (99, 9902),
+        (99, 9903),
+        (99, 9904),
+        (99, 9999),
+        (98, 9801),
+    ):
+        BigGenreGenreFactory.create(
+            biggenre_code=biggenre_code, genre_code=genre_code
+        )
+
+
 def init_db(db):
     """テスト用DBの初期設定."""
     # Factoryの初期設定
@@ -59,68 +145,11 @@ def init_db(db):
         factory._meta.sqlalchemy_session = db
 
     # 初期データ
-    ## rank_type
-    RankTypeFactory.create(type="d")
-    RankTypeFactory.create(type="w")
-    RankTypeFactory.create(type="m")
-    RankTypeFactory.create(type="q")
-    ## novel_type
-    NovelTypeFactory.create(code=1, name="連載")
-    NovelTypeFactory.create(code=2, name="短編")
-    ## biggenre
-    BigGenreFactory.create(code=0, name="未選択")
-    BigGenreFactory.create(code=1, name="恋愛")
-    BigGenreFactory.create(code=2, name="ファンタジー")
-    BigGenreFactory.create(code=3, name="文芸")
-    BigGenreFactory.create(code=4, name="SF")
-    BigGenreFactory.create(code=99, name="その他")
-    BigGenreFactory.create(code=98, name="ノンジャンル")
-    ## genre
-    GenreFactory.create(code=0, name="未選択〔未選択〕")
-    GenreFactory.create(code=101, name="異世界〔恋愛〕")
-    GenreFactory.create(code=102, name="現実世界〔恋愛〕")
-    GenreFactory.create(code=201, name="ハイファンタジー〔ファンタジー〕")
-    GenreFactory.create(code=202, name="ローファンタジー〔ファンタジー〕")
-    GenreFactory.create(code=301, name="純文学〔文芸〕")
-    GenreFactory.create(code=302, name="ヒューマンドラマ〔文芸〕")
-    GenreFactory.create(code=303, name="歴史〔文芸〕")
-    GenreFactory.create(code=304, name="推理〔文芸〕")
-    GenreFactory.create(code=305, name="ホラー〔文芸〕")
-    GenreFactory.create(code=306, name="アクション〔文芸〕")
-    GenreFactory.create(code=307, name="コメディー〔文芸〕")
-    GenreFactory.create(code=401, name="VRゲーム〔SF〕")
-    GenreFactory.create(code=402, name="宇宙〔SF〕")
-    GenreFactory.create(code=403, name="空想科学〔SF〕")
-    GenreFactory.create(code=404, name="パニック〔SF〕")
-    GenreFactory.create(code=9901, name="童話〔その他〕")
-    GenreFactory.create(code=9902, name="詩〔その他〕")
-    GenreFactory.create(code=9903, name="エッセイ〔その他〕")
-    GenreFactory.create(code=9904, name="リプレイ〔その他〕")
-    GenreFactory.create(code=9999, name="その他〔その他〕")
-    GenreFactory.create(code=9801, name="ノンジャンル〔ノンジャンル〕")
-    ## biggenre_genre
-    BigGenreGenreFactory.create(biggenre_code=0, genre_code=0)
-    BigGenreGenreFactory.create(biggenre_code=1, genre_code=101)
-    BigGenreGenreFactory.create(biggenre_code=1, genre_code=102)
-    BigGenreGenreFactory.create(biggenre_code=2, genre_code=201)
-    BigGenreGenreFactory.create(biggenre_code=2, genre_code=202)
-    BigGenreGenreFactory.create(biggenre_code=3, genre_code=301)
-    BigGenreGenreFactory.create(biggenre_code=3, genre_code=302)
-    BigGenreGenreFactory.create(biggenre_code=3, genre_code=303)
-    BigGenreGenreFactory.create(biggenre_code=3, genre_code=304)
-    BigGenreGenreFactory.create(biggenre_code=3, genre_code=305)
-    BigGenreGenreFactory.create(biggenre_code=3, genre_code=306)
-    BigGenreGenreFactory.create(biggenre_code=3, genre_code=307)
-    BigGenreGenreFactory.create(biggenre_code=4, genre_code=401)
-    BigGenreGenreFactory.create(biggenre_code=4, genre_code=402)
-    BigGenreGenreFactory.create(biggenre_code=4, genre_code=403)
-    BigGenreGenreFactory.create(biggenre_code=4, genre_code=404)
-    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9901)
-    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9902)
-    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9903)
-    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9904)
-    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9999)
-    BigGenreGenreFactory.create(biggenre_code=98, genre_code=9801)
+    init_rank_type()
+    init_novel_type()
+    init_biggenre()
+    init_genre()
+    init_biggenre_genre()
 
 
 @pytest.fixture
