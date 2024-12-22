@@ -40,7 +40,26 @@ postgresql_fixture = factories.postgresql("postgresql_in_docker")
 
 
 def init_db(db):
-    """テスト用DBの初期設定."""
+    """
+    Initialize test database with factory data and default records.
+    
+    This function sets up a test database with predefined data using factory classes. It initializes various entities including rank types, novel types, genres, and their relationships.
+    
+    Parameters:
+        db (SQLAlchemy.Session): SQLAlchemy database session object
+    
+    The function performs the following initializations:
+    - Configures factory classes with the provided database session
+    - Creates rank types (daily, weekly, monthly, quarterly)
+    - Creates novel types (series, short story)
+    - Creates big genres (romance, fantasy, literature, etc.)
+    - Creates sub-genres for each big genre
+    - Establishes relationships between big genres and their sub-genres
+    
+    Note:
+        This function modifies the database state by creating multiple records.
+        All factory classes must be properly defined before calling this function.
+    """
     # Factoryの初期設定
     factories = (
         RankTypeFactory,
@@ -125,7 +144,27 @@ def init_db(db):
 
 @pytest.fixture
 def db(postgresql_fixture):
-    """テスト用DBセッションをSetupするFixture."""
+    """
+    Create and manage a test database session fixture.
+    
+    Parameters:
+        postgresql_fixture: A pytest postgresql fixture containing database connection information
+                           (user, password, host, dbname, port)
+    
+    Yields:
+        Session: A SQLAlchemy database session configured for testing
+    
+    Notes:
+        - Creates database tables defined in Base.metadata
+        - Handles session lifecycle (commit/rollback/close)
+        - Uses NullPool to prevent connection pooling during tests
+        - Automatically initializes database with init_db()
+        - Commits successful transactions and rolls back failed ones
+        - Ensures proper cleanup by closing session in finally block
+    
+    Raises:
+        Exception: Any database-related exceptions during session operations
+    """
     url = URL.create(
         drivername="postgresql",
         username=postgresql_fixture.info.user,

@@ -19,7 +19,19 @@ class NcodeMappingData:
 
 @task(tags=["db"])
 def get_target_from_db() -> list[NcodeMappingData]:
-    """取得対象をDBから取得."""
+    """
+    Retrieve target novel data from the database and convert to NcodeMappingData objects.
+    
+    Parameters:
+        None
+    
+    Returns:
+        list[NcodeMappingData]: List of novel data objects mapped from database records
+    
+    Notes:
+        Uses a database session to fetch records from ncode_mapping and novel tables,
+        then converts the raw data into NcodeMappingData typed objects.
+    """
     console_logger.info("取得対象をDBから取得")
     # 1-1 ncode_mappingとnovelテーブルから取得対象を取得
     console_logger.info("1-1 ncode_mappingとnovelテーブルから取得対象を取得")
