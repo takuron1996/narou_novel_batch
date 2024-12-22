@@ -13,6 +13,7 @@ from sqlalchemy.pool import NullPool
 from models.base import Base
 from tests.factories.author import AuthorFactory
 from tests.factories.biggenre import BigGenreFactory
+from tests.factories.biggenre_genre import BigGenreGenreFactory
 from tests.factories.genre import GenreFactory
 from tests.factories.keyword import KeywordFactory
 from tests.factories.ncode_mapping import NcodeMappingFactory
@@ -52,6 +53,7 @@ def init_db(db):
         AuthorFactory,
         NovelFactory,
         NovelKeywordsFactory,
+        BigGenreGenreFactory,
     )
     for factory in factories:
         factory._meta.sqlalchemy_session = db
@@ -74,36 +76,51 @@ def init_db(db):
     BigGenreFactory.create(code=99, name="その他")
     BigGenreFactory.create(code=98, name="ノンジャンル")
     ## genre
-    GenreFactory.create(code=0, name="未選択〔未選択〕", biggenre_code=0)
-    GenreFactory.create(code=101, name="異世界〔恋愛〕", biggenre_code=1)
-    GenreFactory.create(code=102, name="現実世界〔恋愛〕", biggenre_code=1)
-    GenreFactory.create(
-        code=201, name="ハイファンタジー〔ファンタジー〕", biggenre_code=2
-    )
-    GenreFactory.create(
-        code=202, name="ローファンタジー〔ファンタジー〕", biggenre_code=2
-    )
-    GenreFactory.create(code=301, name="純文学〔文芸〕", biggenre_code=3)
-    GenreFactory.create(
-        code=302, name="ヒューマンドラマ〔文芸〕", biggenre_code=3
-    )
-    GenreFactory.create(code=303, name="歴史〔文芸〕", biggenre_code=3)
-    GenreFactory.create(code=304, name="推理〔文芸〕", biggenre_code=3)
-    GenreFactory.create(code=305, name="ホラー〔文芸〕", biggenre_code=3)
-    GenreFactory.create(code=306, name="アクション〔文芸〕", biggenre_code=3)
-    GenreFactory.create(code=307, name="コメディー〔文芸〕", biggenre_code=3)
-    GenreFactory.create(code=401, name="VRゲーム〔SF〕", biggenre_code=4)
-    GenreFactory.create(code=402, name="宇宙〔SF〕", biggenre_code=4)
-    GenreFactory.create(code=403, name="空想科学〔SF〕", biggenre_code=4)
-    GenreFactory.create(code=404, name="パニック〔SF〕", biggenre_code=4)
-    GenreFactory.create(code=9901, name="童話〔その他〕", biggenre_code=99)
-    GenreFactory.create(code=9902, name="詩〔その他〕", biggenre_code=99)
-    GenreFactory.create(code=9903, name="エッセイ〔その他〕", biggenre_code=99)
-    GenreFactory.create(code=9904, name="リプレイ〔その他〕", biggenre_code=99)
-    GenreFactory.create(code=9999, name="その他〔その他〕", biggenre_code=99)
-    GenreFactory.create(
-        code=9801, name="ノンジャンル〔ノンジャンル〕", biggenre_code=98
-    )
+    GenreFactory.create(code=0, name="未選択〔未選択〕")
+    GenreFactory.create(code=101, name="異世界〔恋愛〕")
+    GenreFactory.create(code=102, name="現実世界〔恋愛〕")
+    GenreFactory.create(code=201, name="ハイファンタジー〔ファンタジー〕")
+    GenreFactory.create(code=202, name="ローファンタジー〔ファンタジー〕")
+    GenreFactory.create(code=301, name="純文学〔文芸〕")
+    GenreFactory.create(code=302, name="ヒューマンドラマ〔文芸〕")
+    GenreFactory.create(code=303, name="歴史〔文芸〕")
+    GenreFactory.create(code=304, name="推理〔文芸〕")
+    GenreFactory.create(code=305, name="ホラー〔文芸〕")
+    GenreFactory.create(code=306, name="アクション〔文芸〕")
+    GenreFactory.create(code=307, name="コメディー〔文芸〕")
+    GenreFactory.create(code=401, name="VRゲーム〔SF〕")
+    GenreFactory.create(code=402, name="宇宙〔SF〕")
+    GenreFactory.create(code=403, name="空想科学〔SF〕")
+    GenreFactory.create(code=404, name="パニック〔SF〕")
+    GenreFactory.create(code=9901, name="童話〔その他〕")
+    GenreFactory.create(code=9902, name="詩〔その他〕")
+    GenreFactory.create(code=9903, name="エッセイ〔その他〕")
+    GenreFactory.create(code=9904, name="リプレイ〔その他〕")
+    GenreFactory.create(code=9999, name="その他〔その他〕")
+    GenreFactory.create(code=9801, name="ノンジャンル〔ノンジャンル〕")
+    ## biggenre_genre
+    BigGenreGenreFactory.create(biggenre_code=0, genre_code=0)
+    BigGenreGenreFactory.create(biggenre_code=1, genre_code=101)
+    BigGenreGenreFactory.create(biggenre_code=1, genre_code=102)
+    BigGenreGenreFactory.create(biggenre_code=2, genre_code=201)
+    BigGenreGenreFactory.create(biggenre_code=2, genre_code=202)
+    BigGenreGenreFactory.create(biggenre_code=3, genre_code=301)
+    BigGenreGenreFactory.create(biggenre_code=3, genre_code=302)
+    BigGenreGenreFactory.create(biggenre_code=3, genre_code=303)
+    BigGenreGenreFactory.create(biggenre_code=3, genre_code=304)
+    BigGenreGenreFactory.create(biggenre_code=3, genre_code=305)
+    BigGenreGenreFactory.create(biggenre_code=3, genre_code=306)
+    BigGenreGenreFactory.create(biggenre_code=3, genre_code=307)
+    BigGenreGenreFactory.create(biggenre_code=4, genre_code=401)
+    BigGenreGenreFactory.create(biggenre_code=4, genre_code=402)
+    BigGenreGenreFactory.create(biggenre_code=4, genre_code=403)
+    BigGenreGenreFactory.create(biggenre_code=4, genre_code=404)
+    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9901)
+    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9902)
+    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9903)
+    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9904)
+    BigGenreGenreFactory.create(biggenre_code=99, genre_code=9999)
+    BigGenreGenreFactory.create(biggenre_code=98, genre_code=9801)
 
 
 @pytest.fixture
