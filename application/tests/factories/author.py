@@ -12,6 +12,7 @@ class AuthorFactory(factory.alchemy.SQLAlchemyModelFactory):
 
     class Meta:
         """メタデータ."""
+
         model = Author
         sqlalchemy_session = None
         sqlalchemy_session_persistence = "commit"
