@@ -17,7 +17,7 @@ def novel_with_ncode_mapping():
 @pytest.fixture
 def novel_without_ncode_mapping():
     """novelテーブルに格納されているデータと紐付かないncode_mappingのデータ."""
-    return NcodeMappingFactory.create(ncode=" ")
+    return NcodeMappingFactory.create(ncode="N0563JW")
 
 
 @pytest.fixture
