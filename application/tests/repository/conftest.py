@@ -17,10 +17,11 @@ from tests.factories.genre import GenreFactory
 from tests.factories.keyword import KeywordFactory
 from tests.factories.ncode_mapping import NcodeMappingFactory
 from tests.factories.novel import NovelFactory
+from tests.factories.novel_keywords import NovelKeywordsFactory
 from tests.factories.novel_type import NovelTypeFactory
 from tests.factories.rank import RankFactory
 from tests.factories.rank_type import RankTypeFactory
-from tests.factories.novel_keywords import NovelKeywordsFactory
+
 
 def import_migration_module(module):
     """マイグレーションに含めたいモジュールをimport."""
