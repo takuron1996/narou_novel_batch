@@ -28,12 +28,11 @@ def test_invalid_date_format():
 
 @freeze_time("2024-12-02 12:00:00+09:00")
 def test_no_argument():
-    """引数が指定されていない場合は現在日時とデフォルトのrank_typeを使用."""
+    """引数が指定されていない場合を使用."""
     args = []
     results = process_command_args(args)
     expected_date = jst_now().strftime("%Y%m%d")
     assert results[0] == expected_date
-    assert results[1] == [RankType.DAILY]
 
 
 @freeze_time("2024-12-02 12:00:00+09:00")

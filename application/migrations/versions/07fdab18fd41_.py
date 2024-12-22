@@ -1,9 +1,11 @@
-"""empty message
+"""rankテーブルの主キー変更およびrank_typeテーブルの追加
 
 Revision ID: 07fdab18fd41
 Revises: 08f7d1c486c3
 Create Date: 2024-12-11 09:46:16.957015
 
+このマイグレーションでは、rankテーブルの主キーを変更し、新たにrank_typeテーブルを作成します。
+rankテーブルにはrank_type列を追加し、rank_typeテーブルとの外部キー制約を設定します。
 """
 
 from typing import Sequence, Union
