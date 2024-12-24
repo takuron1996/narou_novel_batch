@@ -39,7 +39,7 @@ class NarouDataMapper:
     def map_response_to_data(
         response, ncode_mapping_data_list: list[NcodeMappingData]
     ) -> list[NarouData]:
-        """APIレスポンスからNarouRankDataのリストを生成するスタティックメソッド."""
+        """APIレスポンスからNarouDataのリストを生成するスタティックメソッド."""
         data_list = []
         try:
             for data in response.json()[1:]:
