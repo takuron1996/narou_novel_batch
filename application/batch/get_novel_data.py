@@ -58,7 +58,7 @@ def fetch_novel_info(data_list: list[NcodeMappingData]):
     url = (
         NarouURLBuilder()
         .set_ncode(ncode)
-        .set_order(NarouOrderType.NCODED_ESC)
+        .set_order(NarouOrderType.NCODED_DESC)
         .set_output_format(OutType.JSON)
         .set_of_list(of_list)
         .build()
