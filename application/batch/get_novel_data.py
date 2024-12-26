@@ -33,11 +33,16 @@ def fetch_novel_info(data_list: list[NcodeMappingData]):
     console_logger.info("小説情報を取得")
     # 2-1 data_listを整形
     console_logger.info("2-1 data_listを整形")
+
+    ## data_listが空リストの場合はそのまま返却
+    if not data_list:
+        console_logger.info("data_listが空のため処理を終了")
+        return data_list
     ncode_list = list(map(lambda x: x.ncode, data_list))
     ncode = "-".join(ncode_list)
 
     # 2-2 なろうAPIから小説情報を取得
-    # t-u-n-w-bg-g-k-nt-ir-ibl-igl-izk-its-iti
+    ## t-u-n-w-bg-g-k-nt-ir-ibl-igl-izk-its-iti
     console_logger.info("2-2 なろうAPIから小説情報を取得")
     of_list = [
         NarouOfType.TITLE,
