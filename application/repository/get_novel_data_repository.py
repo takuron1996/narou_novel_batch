@@ -11,7 +11,7 @@ base_dir = Path(__file__).parent
 sub_dirs = ["sql", "get_novel_data_repository"]
 
 
-def get_target_novel_data(session):
+def get_target_novel_data(session) -> list[dict]:
     """ncode_mappingにあり、novelにないデータを取得."""
     console_logger.debug("ncode_mappingにあり、novelにないデータを取得")
     sql_query = get_sql_query("get_target_novel_data.sql", base_dir, sub_dirs)

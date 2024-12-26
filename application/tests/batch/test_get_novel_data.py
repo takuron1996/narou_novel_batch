@@ -31,6 +31,13 @@ def test_get_target_from_db(mocker):
     ]
 
 
+def test_get_target_from_db_empty(mocker):
+    """DBから取得したデータが空のケース."""
+    mocker.patch("batch.get_novel_data.get_target_novel_data", return_value=[])
+    data_list = get_target_from_db.fn()
+    assert data_list == []
+
+
 # fetch_novel_info
 def test_fetch_novel_info(
     mocker, narou_response_value, ncode_mapping_data_list
