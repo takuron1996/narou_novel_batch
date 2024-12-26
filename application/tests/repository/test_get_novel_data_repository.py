@@ -35,3 +35,9 @@ def test_get_target_novel_data(db, novel_without_ncode_mapping, novel):
     assert len(results) == 1
     assert results[0].get("id") == novel_without_ncode_mapping.id
     assert results[0].get("ncode") == novel_without_ncode_mapping.ncode
+
+
+def test_get_target_novel_data_empty(db, novel):
+    """取得したデータが空の場合のテスト."""
+    results = get_target_novel_data(db)
+    assert results == []
