@@ -19,7 +19,7 @@ def test_get_target_from_db(mocker):
     mocker.patch(
         "batch.get_novel_data.get_target_novel_data", return_value=mock_value
     )
-    data_list = get_target_from_db()
+    data_list = get_target_from_db.fn()
     assert len(data_list) == 2
     assert data_list == [
         NcodeMappingData(
@@ -34,7 +34,7 @@ def test_get_target_from_db(mocker):
 def test_get_target_from_db_empty(mocker):
     """DBから取得したデータが空のケース."""
     mocker.patch("batch.get_novel_data.get_target_novel_data", return_value=[])
-    data_list = get_target_from_db()
+    data_list = get_target_from_db.fn()
     assert data_list == []
 
 
@@ -46,7 +46,7 @@ def test_fetch_novel_info(
     response_mock = Mock()
     response_mock.json.return_value = narou_response_value
     mocker.patch("batch.get_novel_data.request_get", return_value=response_mock)
-    insert_data_list = fetch_novel_info(ncode_mapping_data_list)
+    insert_data_list = fetch_novel_info.fn(ncode_mapping_data_list)
     assert len(insert_data_list) == 2
     assert isinstance(insert_data_list[0], NarouData)
 
@@ -105,11 +105,11 @@ def test_invalid_fetch_novel_info(mocker, ncode_mapping_data_list):
     """responseが200以外の場合のケース."""
     mocker.patch("batch.get_novel_data.request_get", return_value=None)
     with pytest.raises(Exception) as excinfo:
-        fetch_novel_info(ncode_mapping_data_list)
+        fetch_novel_info.fn(ncode_mapping_data_list)
     assert ("レスポンスが200以外のため終了") in str(excinfo.value)
 
 
 def test_fetch_novel_info_empty_list_arg():
     """引数が空リストの場合の処理."""
-    results = fetch_novel_info([])
+    results = fetch_novel_info.fn([])
     assert results == []
