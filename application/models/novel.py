@@ -24,7 +24,7 @@ class Novel(Base):
         comment="ID",
     )
     author_id = Column(
-        UUID(as_uuid=True),
+        String(42),
         ForeignKey(Author.author_id),
         nullable=False,
         comment="作者のID",

@@ -3,9 +3,13 @@
 import uuid
 
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.dialects.postgresql import UUID
 
 from models.base import Base
+
+
+def get_author_id():
+    """作者を一意に特定するIDを生成."""
+    return f"AUTH{uuid.uuid4}"
 
 
 class Author(Base):
@@ -13,9 +17,9 @@ class Author(Base):
 
     __tablename__ = "author"
     author_id = Column(
-        UUID(as_uuid=True),
+        String(42),
         primary_key=True,
-        default=uuid.uuid4,
+        default=get_author_id,
         nullable=False,
         comment="作者のID",
     )
