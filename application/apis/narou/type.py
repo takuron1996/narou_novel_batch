@@ -95,7 +95,7 @@ class NarouOrderType(Enum):
     LENGTH_DESC = "lengthdesc"
     LENGTH_ASC = "lengthasc"
     GENERAL_FIRST_UP = "generalfirstup"
-    NCODED_DESC = "ncodedesc"
+    NCODE_DESC = "ncodedesc"
     OLD = "old"
 
 
