@@ -3,7 +3,6 @@
 import uuid
 
 import factory
-from sqlalchemy.sql import func
 
 from models.ncode_mapping import NcodeMapping
 
@@ -20,6 +19,3 @@ class NcodeMappingFactory(factory.alchemy.SQLAlchemyModelFactory):
 
     id = factory.LazyFunction(lambda: uuid.uuid4())
     ncode = factory.Sequence(lambda n: f"ncode_{n}")
-    created_at = factory.LazyFunction(lambda: func.current_timestamp())
-    updated_at = factory.LazyFunction(lambda: func.current_timestamp())
-    deleted_at = None

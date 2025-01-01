@@ -15,11 +15,3 @@ class RankFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = Rank
         sqlalchemy_session = None  # セッションを初期化
         sqlalchemy_session_persistence = "commit"  # データをコミットする
-
-    created_at = factory.LazyFunction(
-        lambda: func.current_timestamp()
-    )  # 現在時刻を使用
-    updated_at = factory.LazyFunction(
-        lambda: func.current_timestamp()
-    )  # 現在時刻を使用
-    deleted_at = None
