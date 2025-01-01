@@ -1,7 +1,6 @@
 """rankテーブル."""
 
 from sqlalchemy import (
-    TIMESTAMP,
     UUID,
     Column,
     Date,
@@ -9,7 +8,6 @@ from sqlalchemy import (
     Integer,
     PrimaryKeyConstraint,
     String,
-    func,
 )
 
 from models.base import Base
@@ -26,16 +24,6 @@ class Rank(Base):
     rank = Column(Integer, nullable=False)
     rank_date = Column(Date, nullable=False)
     rank_type = Column(String(1), ForeignKey(RankType.type), nullable=False)
-    created_at = Column(
-        TIMESTAMP, nullable=False, server_default=func.current_timestamp()
-    )
-    updated_at = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=func.current_timestamp(),
-        onupdate=func.current_timestamp(),
-    )
-    deleted_at = Column(TIMESTAMP, nullable=True)
 
     __table_args__ = (
         PrimaryKeyConstraint(
