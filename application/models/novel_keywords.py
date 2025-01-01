@@ -1,6 +1,6 @@
 """novel_keywordsテーブル."""
 
-from sqlalchemy import Column, ForeignKey, PrimaryKeyConstraint
+from sqlalchemy import Column, ForeignKey, PrimaryKeyConstraint, String
 from sqlalchemy.dialects.postgresql import UUID
 
 from models.base import Base
@@ -19,7 +19,7 @@ class NovelKeywords(Base):
         comment="ID",
     )
     keyword_id = Column(
-        UUID(as_uuid=True),
+        String(43),
         ForeignKey(Keyword.keyword_id),
         nullable=False,
         comment="キーワードのID",
