@@ -1,7 +1,6 @@
 """rankのファクトリー関連."""
 
 import factory
-from sqlalchemy.sql import func
 
 from models.rank import Rank
 
