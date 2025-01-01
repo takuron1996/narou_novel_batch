@@ -5,11 +5,13 @@ import pytest
 from models.author import Author, get_author_id
 from models.keyword import Keyword, get_keyword_id
 from models.novel import Novel
+from models.novel_keywords import NovelKeywords
 from repository.get_novel_data_repository import (
     get_target_novel_data,
     insert_author,
     insert_keyword,
     insert_novel,
+    insert_novel_keywords,
 )
 from tests.factories.author import AuthorFactory
 from tests.factories.keyword import KeywordFactory
@@ -129,6 +131,62 @@ def insert_novel_list(
             "iszankoku": False,
             "istensei": False,
             "istenni": False,
+        },
+    ]
+
+
+@pytest.fixture
+def prepare_keyword_list(insert_keyword_list):
+    """準備用のkeyword."""
+    return [
+        KeywordFactory.create(
+            keyword_id=insert_keyword.get("keyword_id"),
+            name=insert_keyword.get("name"),
+        )
+        for insert_keyword in insert_keyword_list
+    ]
+
+
+@pytest.fixture
+def prepare_novel_list():
+    """準備用のnovel."""
+    return [
+        NovelFactory.create(
+            id=NcodeMappingFactory().id, author_id=AuthorFactory().author_id
+        ),
+        NovelFactory.create(
+            id=NcodeMappingFactory().id, author_id=AuthorFactory().author_id
+        ),
+    ]
+
+
+@pytest.fixture
+def insert_novel_keyword_list(prepare_novel_list, prepare_keyword_list):
+    """登録したいnovel_keywordsのデータ."""
+    return [
+        {
+            "id": prepare_novel_list[0].id,
+            "keyword": prepare_keyword_list[0].name,
+        },
+        {
+            "id": prepare_novel_list[0].id,
+            "keyword": prepare_keyword_list[1].name,
+        },
+        {
+            "id": prepare_novel_list[0].id,
+            "keyword": prepare_keyword_list[2].name,
+        },
+        {
+            "id": prepare_novel_list[0].id,
+            "keyword": prepare_keyword_list[3].name,
+        },
+        {
+            "id": prepare_novel_list[1].id,
+            "keyword": prepare_keyword_list[4].name,
+        },
+        {
+            "id": prepare_novel_list[1].id,
+            "keyword": prepare_keyword_list[5].name,
         },
     ]
 
@@ -308,3 +366,26 @@ def test_duplicat_insert_novel(
     assert not results[1].iszankoku
     assert not results[1].istensei
     assert not results[1].istenni
+
+
+# insert_novel_keywords関連
+def test_insert_novel_keywords(
+    db, insert_novel_keyword_list, prepare_keyword_list
+):
+    """正常系のテスト."""
+    insert_novel_keywords(db, insert_novel_keyword_list)
+    results = db.query(NovelKeywords).order_by(NovelKeywords.keyword_id).all()
+
+    assert len(results) == 6
+    assert results[0].id == insert_novel_keyword_list[0].get("id")
+    assert results[0].keyword_id == prepare_keyword_list[0].keyword_id
+    assert results[1].id == insert_novel_keyword_list[1].get("id")
+    assert results[1].keyword_id == prepare_keyword_list[1].keyword_id
+    assert results[2].id == insert_novel_keyword_list[2].get("id")
+    assert results[2].keyword_id == prepare_keyword_list[2].keyword_id
+    assert results[3].id == insert_novel_keyword_list[3].get("id")
+    assert results[3].keyword_id == prepare_keyword_list[3].keyword_id
+    assert results[4].id == insert_novel_keyword_list[4].get("id")
+    assert results[4].keyword_id == prepare_keyword_list[4].keyword_id
+    assert results[5].id == insert_novel_keyword_list[5].get("id")
+    assert results[5].keyword_id == prepare_keyword_list[5].keyword_id
