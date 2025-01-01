@@ -9,7 +9,7 @@ from models.base import Base
 
 def get_author_id():
     """作者を一意に特定するIDを生成."""
-    return f"AUTH{uuid.uuid4()}"
+    return f"AUTHOR{uuid.uuid4()}"
 
 
 class Author(Base):
