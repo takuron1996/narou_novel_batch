@@ -2,9 +2,11 @@
 
 import pytest
 
+from models.author import Author, get_author_id
 from models.keyword import Keyword, get_keyword_id
 from repository.get_novel_data_repository import (
     get_target_novel_data,
+    insert_author,
     insert_keyword,
 )
 from tests.factories.author import AuthorFactory
@@ -49,6 +51,36 @@ def insert_keyword_list(keyword_id):
         {"keyword_id": f"{keyword_id[:-1]}4", "name": "魔女"},
         {"keyword_id": f"{keyword_id[:-1]}5", "name": "R18"},
         {"keyword_id": f"{keyword_id[:-1]}6", "name": "男主人公"},
+    ]
+
+
+@pytest.fixture
+def userid():
+    """作者のID作者のユーザーID(数値)."""
+    return 1877427
+
+
+@pytest.fixture
+def author_id():
+    """作者のID."""
+    return get_author_id()
+
+
+@pytest.fixture
+def insert_author_list(userid, author_id):
+    """登録したい作者のデータ."""
+    return [
+        {"userid": userid, "writer": "aaa", "author_id": f"{author_id[:-1]}1"},
+        {
+            "userid": userid + 1,
+            "writer": "bbb",
+            "author_id": f"{author_id[:-1]}2",
+        },
+        {
+            "userid": userid + 2,
+            "writer": "ccc",
+            "author_id": f"{author_id[:-1]}3",
+        },
     ]
 
 
@@ -111,3 +143,44 @@ def test_duplicat_insert_keyword(db, insert_keyword_list, keyword_id):
     assert results[4].name == insert_keyword_list[5].get("name")
     assert results[5].keyword_id == insert_keyword_id
     assert results[5].name == insert_keyword_list[0].get("name")
+
+
+# insert_author関連
+def test_insert_author(db, insert_author_list):
+    """正常系のテスト."""
+    insert_author(db, insert_author_list)
+    results = db.query(Author).order_by(Author.userid).all()
+    assert len(results) == 3
+    assert results[0].author_id == insert_author_list[0].get("author_id")
+    assert results[0].userid == insert_author_list[0].get("userid")
+    assert results[0].writer == insert_author_list[0].get("writer")
+    assert results[1].author_id == insert_author_list[1].get("author_id")
+    assert results[1].userid == insert_author_list[1].get("userid")
+    assert results[1].writer == insert_author_list[1].get("writer")
+    assert results[2].author_id == insert_author_list[2].get("author_id")
+    assert results[2].userid == insert_author_list[2].get("userid")
+    assert results[2].writer == insert_author_list[2].get("writer")
+
+
+def test_duplicat_insert_author(db, insert_author_list, userid, author_id):
+    """重複している場合のテスト."""
+    # 事前にデータを作成
+    insert_writer = "hogehoge"
+    insert_author_id = f"{author_id[:-1]}9"
+    AuthorFactory.create(
+        userid=userid, author_id=insert_author_id, writer=insert_writer
+    )
+
+    insert_author(db, insert_author_list)
+    results = db.query(Author).order_by(Author.userid).all()
+
+    assert len(results) == 3
+    assert results[0].author_id == insert_author_id
+    assert results[0].userid == insert_author_list[0].get("userid")
+    assert results[0].writer == insert_author_list[0].get("writer")
+    assert results[1].author_id == insert_author_list[1].get("author_id")
+    assert results[1].userid == insert_author_list[1].get("userid")
+    assert results[1].writer == insert_author_list[1].get("writer")
+    assert results[2].author_id == insert_author_list[2].get("author_id")
+    assert results[2].userid == insert_author_list[2].get("userid")
+    assert results[2].writer == insert_author_list[2].get("writer")

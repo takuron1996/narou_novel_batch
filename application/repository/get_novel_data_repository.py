@@ -24,3 +24,9 @@ def insert_keyword(session, insert_keyword_list: list[dict]):
     sql_query = get_sql_query("insert_keyword.sql", base_dir, sub_dirs)
     session.execute(text(sql_query), insert_keyword_list)
 
+
+def insert_author(session, insert_author_list: list[dict]):
+    """作者を登録."""
+    console_logger.info("authorにデータを登録")
+    sql_query = get_sql_query("insert_author.sql", base_dir, sub_dirs)
+    session.execute(text(sql_query), insert_author_list)
