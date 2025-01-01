@@ -9,7 +9,7 @@ from models.base import Base
 
 def get_keyword_id():
     """キーワードを一意に特定するIDを生成."""
-    return f"KEYWORD{uuid.uuid4}"
+    return f"KEYWORD{uuid.uuid4()}"
 
 
 class Keyword(Base):
