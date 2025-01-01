@@ -16,3 +16,11 @@ def get_target_novel_data(session) -> list[dict]:
     console_logger.debug("ncode_mappingにあり、novelにないデータを取得")
     sql_query = get_sql_query("get_target_novel_data.sql", base_dir, sub_dirs)
     return session.execute(text(sql_query)).mappings().all()
+
+
+def insert_keyword(session, insert_keyword_list: list[dict]):
+    """キーワードを登録."""
+    console_logger.info("keywordにデータを登録")
+    sql_query = get_sql_query("insert_keyword.sql", base_dir, sub_dirs)
+    session.execute(text(sql_query), insert_keyword_list)
+
