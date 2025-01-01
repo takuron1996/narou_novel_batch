@@ -4,10 +4,12 @@ import pytest
 
 from models.author import Author, get_author_id
 from models.keyword import Keyword, get_keyword_id
+from models.novel import Novel
 from repository.get_novel_data_repository import (
     get_target_novel_data,
     insert_author,
     insert_keyword,
+    insert_novel,
 )
 from tests.factories.author import AuthorFactory
 from tests.factories.keyword import KeywordFactory
@@ -80,6 +82,53 @@ def insert_author_list(userid, author_id):
             "userid": userid + 2,
             "writer": "ccc",
             "author_id": f"{author_id[:-1]}3",
+        },
+    ]
+
+
+@pytest.fixture
+def prepare_author_list(userid):
+    """準備用のauthor."""
+    return [
+        AuthorFactory.create(userid=userid, writer="aaa"),
+        AuthorFactory.create(userid=userid + 1, writer="bbb"),
+        AuthorFactory.create(userid=userid + 2, writer="ccc"),
+    ]
+
+
+@pytest.fixture
+def insert_novel_list(
+    novel_with_ncode_mapping, novel_without_ncode_mapping, prepare_author_list
+):
+    """登録したい小説のデータ."""
+    return [
+        {
+            "id": novel_with_ncode_mapping.id,
+            "title": "前世は魔女でした！",
+            "userid": prepare_author_list[0].userid,
+            "biggenre_code": 1,
+            "genre_code": 101,
+            "novel_type_id": 1,
+            "isr15": True,
+            "isbl": True,
+            "isgl": True,
+            "iszankoku": True,
+            "istensei": True,
+            "istenni": True,
+        },
+        {
+            "id": novel_without_ncode_mapping.id,
+            "title": "次の婚約者は人の気持ちのわからないサイコパスです",
+            "userid": prepare_author_list[1].userid,
+            "biggenre_code": 2,
+            "genre_code": 201,
+            "novel_type_id": 2,
+            "isr15": False,
+            "isbl": False,
+            "isgl": False,
+            "iszankoku": False,
+            "istensei": False,
+            "istenni": False,
         },
     ]
 
@@ -184,3 +233,78 @@ def test_duplicat_insert_author(db, insert_author_list, userid, author_id):
     assert results[2].author_id == insert_author_list[2].get("author_id")
     assert results[2].userid == insert_author_list[2].get("userid")
     assert results[2].writer == insert_author_list[2].get("writer")
+
+
+# insert_novel関連
+def test_insert_novel(db, insert_novel_list, prepare_author_list):
+    """正常系のテスト."""
+    insert_novel(db, insert_novel_list)
+    results = db.query(Novel).order_by(Novel.biggenre_code).all()
+
+    assert len(results) == 2
+    assert results[0].id == insert_novel_list[0].get("id")
+    assert results[0].author_id == prepare_author_list[0].author_id
+    assert results[0].title == insert_novel_list[0].get("title")
+    assert results[0].biggenre_code == insert_novel_list[0].get("biggenre_code")
+    assert results[0].genre_code == insert_novel_list[0].get("genre_code")
+    assert results[0].novel_type_id == insert_novel_list[0].get("novel_type_id")
+    assert results[0].isr15
+    assert results[0].isbl
+    assert results[0].isgl
+    assert results[0].iszankoku
+    assert results[0].istensei
+    assert results[0].istenni
+
+    assert results[1].id == insert_novel_list[1].get("id")
+    assert results[1].author_id == prepare_author_list[1].author_id
+    assert results[1].title == insert_novel_list[1].get("title")
+    assert results[1].biggenre_code == insert_novel_list[1].get("biggenre_code")
+    assert results[1].genre_code == insert_novel_list[1].get("genre_code")
+    assert results[1].novel_type_id == insert_novel_list[1].get("novel_type_id")
+    assert not results[1].isr15
+    assert not results[1].isbl
+    assert not results[1].isgl
+    assert not results[1].iszankoku
+    assert not results[1].istensei
+    assert not results[1].istenni
+
+
+def test_duplicat_insert_novel(
+    db, insert_novel_list, prepare_author_list, novel_with_ncode_mapping
+):
+    """重複している場合のテスト."""
+    # 事前にデータを作成
+    NovelFactory.create(
+        id=novel_with_ncode_mapping.id,
+        author_id=prepare_author_list[2].author_id,
+    )
+
+    insert_novel(db, insert_novel_list)
+    results = db.query(Novel).order_by(Novel.biggenre_code).all()
+
+    assert len(results) == 2
+    assert results[0].id == insert_novel_list[0].get("id")
+    assert results[0].author_id == prepare_author_list[0].author_id
+    assert results[0].title == insert_novel_list[0].get("title")
+    assert results[0].biggenre_code == insert_novel_list[0].get("biggenre_code")
+    assert results[0].genre_code == insert_novel_list[0].get("genre_code")
+    assert results[0].novel_type_id == insert_novel_list[0].get("novel_type_id")
+    assert results[0].isr15
+    assert results[0].isbl
+    assert results[0].isgl
+    assert results[0].iszankoku
+    assert results[0].istensei
+    assert results[0].istenni
+
+    assert results[1].id == insert_novel_list[1].get("id")
+    assert results[1].author_id == prepare_author_list[1].author_id
+    assert results[1].title == insert_novel_list[1].get("title")
+    assert results[1].biggenre_code == insert_novel_list[1].get("biggenre_code")
+    assert results[1].genre_code == insert_novel_list[1].get("genre_code")
+    assert results[1].novel_type_id == insert_novel_list[1].get("novel_type_id")
+    assert not results[1].isr15
+    assert not results[1].isbl
+    assert not results[1].isgl
+    assert not results[1].iszankoku
+    assert not results[1].istensei
+    assert not results[1].istenni

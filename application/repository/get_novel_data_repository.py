@@ -30,3 +30,10 @@ def insert_author(session, insert_author_list: list[dict]):
     console_logger.info("authorにデータを登録")
     sql_query = get_sql_query("insert_author.sql", base_dir, sub_dirs)
     session.execute(text(sql_query), insert_author_list)
+
+
+def insert_novel(session, insert_novel_list: list[dict]):
+    """小説を登録."""
+    console_logger.info("novelにデータを登録")
+    sql_query = get_sql_query("insert_novel.sql", base_dir, sub_dirs)
+    session.execute(text(sql_query), insert_novel_list)
