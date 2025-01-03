@@ -8,6 +8,7 @@ from apis.narou.narou_data import NarouData
 from batch.data import NcodeMappingData
 from batch.get_novel_data import (
     fetch_novel_info,
+    get_chunk_list,
     get_insert_author_novel_list,
     get_insert_keyword_list,
     get_insert_novel_keyword_list,
@@ -235,3 +236,31 @@ def test_get_insert_novel_keyword_list(insert_data_list):
     assert results[4].get("keyword") == "A4"
     assert results[5].get("id") == insert_data_list[1].id
     assert results[5].get("keyword") == "A5"
+
+
+# get_chunk_list関連
+
+
+def test_get_chunk_list():
+    """正常系のテスト."""
+    # 1から1999までのリスト
+    large_list = list(range(1, 2000))
+
+    chunk_data_list = get_chunk_list(large_list, 500)
+
+    assert len(chunk_data_list) == 4
+    assert len(chunk_data_list[0]) == 500
+    assert len(chunk_data_list[1]) == 500
+    assert len(chunk_data_list[2]) == 500
+    assert len(chunk_data_list[3]) == 499
+
+
+def test_below_500_get_chunk_list():
+    """500未満の場合のテスト."""
+    # 1から499までのリスト
+    large_list = list(range(1, 500))
+
+    chunk_data_list = get_chunk_list(large_list, 500)
+
+    assert len(chunk_data_list) == 1
+    assert len(chunk_data_list[0]) == 499
