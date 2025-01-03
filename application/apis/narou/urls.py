@@ -14,6 +14,7 @@ class NarouParamsKey(Enum):
     NCODE = "ncode"
     OF = "of"
     ORDER = "order"
+    LIMIT = "lim"
 
 
 class NarouURLBuilder:
@@ -51,6 +52,15 @@ class NarouURLBuilder:
         self._params[NarouParamsKey.ORDER.value] = order.value
         return self
 
+    def set_limit(self, limit: int):
+        """出力数を指定(1 ~ 500)."""
+        if limit <= 0:
+            limit = 1
+        elif limit > 500:
+            limit = 500
+        self._params[NarouParamsKey.LIMIT.value] = limit
+        return self
+
     def build(self) -> str:
         """クエリを組み立ててURLを生成."""
         out_put = self._params.get(NarouParamsKey.OUTPUT_FORMAT.value)
@@ -71,7 +81,13 @@ class NarouURLBuilder:
         if order is not None:
             order = f"{NarouParamsKey.ORDER.value}={order}"
 
-        params = [x for x in (out_put, ncode, of, order) if x is not None]
+        limit = self._params.get(NarouParamsKey.LIMIT.value)
+        if limit is not None:
+            limit = f"{NarouParamsKey.LIMIT.value}={limit}"
+
+        params = [
+            x for x in (out_put, ncode, of, order, limit) if x is not None
+        ]
         query = "&".join(params)
         return f"{self._base_url}?{query}"
 
