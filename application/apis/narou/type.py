@@ -139,3 +139,10 @@ class NarouOfType(Enum):
     KAIWARITU = "ka"
     NOVELUPDATED_AT = "nu"
     UPDATED_AT = "ua"
+
+
+class NarouLimitType(Enum):
+    """なろうAPIで指定する出力数の定数."""
+
+    MIN_FETCH_LIMIT = 1
+    MAX_FETCH_LIMIT = 500

@@ -2,7 +2,13 @@
 
 from enum import Enum
 
-from apis.narou.type import NarouOfType, NarouOrderType, OutType, RankType
+from apis.narou.type import (
+    NarouLimitType,
+    NarouOfType,
+    NarouOrderType,
+    OutType,
+    RankType,
+)
 
 # なろうAPI関連
 
@@ -53,11 +59,11 @@ class NarouURLBuilder:
         return self
 
     def set_limit(self, limit: int):
-        """出力数を指定(1 ~ 500)."""
-        if limit <= 0:
-            limit = 1
-        elif limit > 500:
-            limit = 500
+        """出力数を指定."""
+        if limit < NarouLimitType.MIN_FETCH_LIMIT.value:
+            limit = NarouLimitType.MIN_FETCH_LIMIT.value
+        elif limit > NarouLimitType.MAX_FETCH_LIMIT.value:
+            limit = NarouLimitType.MAX_FETCH_LIMIT.value
         self._params[NarouParamsKey.LIMIT.value] = limit
         return self
 
