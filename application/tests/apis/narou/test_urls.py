@@ -203,7 +203,7 @@ def test_test_NarouURLBuilder_max():
     assert f"lim={NarouLimitType.MAX_FETCH_LIMIT.value}" in url
 
 
-def test_test_NarouURLBuilder_greater_than_500():
+def test_test_NarouURLBuilder_greater_than_max():
     """limitが最大値より大きい場合のテスト."""
     url = (
         NarouURLBuilder()

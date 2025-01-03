@@ -200,7 +200,9 @@ def get_novel_data():
     # 取得最大値ずつ区切って並列実行
     # (APIの最大取得件数を考慮するため)
     console_logger.info("flow-1-2 fetch_novel_infoを実行")
-    chunk_data_list = get_chunk_list(data_list, 500)
+    chunk_data_list = get_chunk_list(
+        data_list, NarouLimitType.MAX_FETCH_LIMIT.value
+    )
     fetch_data_list = fetch_novel_info.map(chunk_data_list).result()
 
     # 1-3 insert_novel_into_dbを実行
