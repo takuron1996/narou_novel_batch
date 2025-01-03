@@ -200,8 +200,8 @@ def get_novel_data():
     # 500件ずつ区切って並列実行
     # (APIの最大取得件数が500件なため)
     console_logger.info("flow-1-2 fetch_novel_infoを実行")
-    chunke_data_list = get_chunk_list(data_list, 500)
-    fetch_data_list = fetch_novel_info.map(chunke_data_list).result()
+    chunk_data_list = get_chunk_list(data_list, 500)
+    fetch_data_list = fetch_novel_info.map(chunk_data_list).result()
 
     # 1-3 insert_novel_into_dbを実行
     # データをまとめて1回だけ実行
