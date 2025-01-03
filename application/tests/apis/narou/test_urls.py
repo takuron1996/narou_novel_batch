@@ -114,6 +114,7 @@ def test_NarouURLBuilder_only_output_format():
     assert "ncode=" not in url  # ncodeが含まれない
     assert "of=" not in url  # ofが含まれない
     assert "order=" not in url  # orderが含まれない
+    assert "lim=" not in url  # limitが含まれない
 
 
 def test_NarouURLBuilder_only_ncode():
@@ -123,6 +124,7 @@ def test_NarouURLBuilder_only_ncode():
     assert "out=" not in url  # 出力形式が含まれない
     assert "of=" not in url  # ofが含まれない
     assert "order=" not in url  # orderが含まれない
+    assert "lim=" not in url  # limitが含まれない
 
 
 def test_NarouURLBuilder_only_of_list():
@@ -132,6 +134,7 @@ def test_NarouURLBuilder_only_of_list():
     assert "out=" not in url  # 出力形式が含まれない
     assert "ncode=" not in url  # ncodeが含まれない
     assert "order=" not in url  # orderが含まれない
+    assert "lim=" not in url  # limitが含まれない
 
 
 def test_NarouURLBuilder_only_order():
@@ -141,6 +144,7 @@ def test_NarouURLBuilder_only_order():
     assert "out=" not in url  # 出力形式が含まれない
     assert "ncode=" not in url  # ncodeが含まれない
     assert "of=" not in url  # ofが含まれない
+    assert "lim=" not in url  # limitが含まれない
 
 
 def test_NarouURLBuilder_combined_params():
@@ -151,12 +155,38 @@ def test_NarouURLBuilder_combined_params():
         .set_ncode("N1234")
         .set_of_list([NarouOfType.TITLE, NarouOfType.WRITER])
         .set_order(NarouOrderType.NEW)
+        .set_limit(500)
         .build()
     )
     assert "out=json" in url  # 出力形式が含まれる
     assert "ncode=N1234" in url  # ncodeが含まれる
     assert "of=t-w" in url  # 項目リストが含まれる
     assert "order=new" in url  # 出力順序が含まれる
+    assert "lim=500" in url  # 出力数が含まれる
+
+
+def test_test_NarouURLBuilder__0():
+    """limitが0の場合のテスト."""
+    url = NarouURLBuilder().set_limit(0).build()
+    assert "lim=1" in url
+
+
+def test_test_NarouURLBuilder_less_than_0():
+    """limitが0未満の場合のテスト."""
+    url = NarouURLBuilder().set_limit(-1).build()
+    assert "lim=1" in url
+
+
+def test_test_NarouURLBuilder_500():
+    """limitが500の場合のテスト."""
+    url = NarouURLBuilder().set_limit(500).build()
+    assert "lim=500" in url
+
+
+def test_test_NarouURLBuilder_greater_than_500():
+    """limitが500より大きい場合のテスト."""
+    url = NarouURLBuilder().set_limit(501).build()
+    assert "lim=500" in url
 
 
 def test_NarouURLBuilder_no_params():
