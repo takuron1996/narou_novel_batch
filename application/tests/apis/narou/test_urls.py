@@ -2,7 +2,13 @@
 
 import pytest
 
-from apis.narou.type import NarouOfType, NarouOrderType, OutType, RankType
+from apis.narou.type import (
+    NarouLimitType,
+    NarouOfType,
+    NarouOrderType,
+    OutType,
+    RankType,
+)
 from apis.narou.urls import NarouRankURLBuilder, NarouURLBuilder
 
 
@@ -155,38 +161,56 @@ def test_NarouURLBuilder_combined_params():
         .set_ncode("N1234")
         .set_of_list([NarouOfType.TITLE, NarouOfType.WRITER])
         .set_order(NarouOrderType.NEW)
-        .set_limit(500)
+        .set_limit(NarouLimitType.MAX_FETCH_LIMIT.value)
         .build()
     )
     assert "out=json" in url  # 出力形式が含まれる
     assert "ncode=N1234" in url  # ncodeが含まれる
     assert "of=t-w" in url  # 項目リストが含まれる
     assert "order=new" in url  # 出力順序が含まれる
-    assert "lim=500" in url  # 出力数が含まれる
+    assert (
+        f"lim={NarouLimitType.MAX_FETCH_LIMIT.value}" in url
+    )  # 出力数が含まれる
 
 
-def test_test_NarouURLBuilder__0():
-    """limitが0の場合のテスト."""
-    url = NarouURLBuilder().set_limit(0).build()
-    assert "lim=1" in url
+def test_test_NarouURLBuilder_min_value():
+    """limitが最小値の場合のテスト."""
+    url = (
+        NarouURLBuilder()
+        .set_limit(NarouLimitType.MIN_FETCH_LIMIT.value)
+        .build()
+    )
+    assert f"lim={NarouLimitType.MIN_FETCH_LIMIT.value}" in url
 
 
-def test_test_NarouURLBuilder_less_than_0():
-    """limitが0未満の場合のテスト."""
-    url = NarouURLBuilder().set_limit(-1).build()
-    assert "lim=1" in url
+def test_test_NarouURLBuilder_less_than_min():
+    """limitが最小値未満の場合のテスト."""
+    url = (
+        NarouURLBuilder()
+        .set_limit(NarouLimitType.MIN_FETCH_LIMIT.value - 1)
+        .build()
+    )
+    assert f"lim={NarouLimitType.MIN_FETCH_LIMIT.value}" in url
 
 
-def test_test_NarouURLBuilder_500():
-    """limitが500の場合のテスト."""
-    url = NarouURLBuilder().set_limit(500).build()
-    assert "lim=500" in url
+def test_test_NarouURLBuilder_max():
+    """limitが最大値の場合のテスト."""
+    url = (
+        NarouURLBuilder()
+        .set_limit(NarouLimitType.MAX_FETCH_LIMIT.value)
+        .build()
+    )
+    assert f"lim={NarouLimitType.MAX_FETCH_LIMIT.value}" in url
 
 
 def test_test_NarouURLBuilder_greater_than_500():
-    """limitが500より大きい場合のテスト."""
-    url = NarouURLBuilder().set_limit(501).build()
-    assert "lim=500" in url
+    """limitが最大値より大きい場合のテスト."""
+    url = (
+        NarouURLBuilder()
+        .set_limit(NarouLimitType.MAX_FETCH_LIMIT.value + 1)
+        .build()
+    )
+    assert f"lim={NarouLimitType.MAX_FETCH_LIMIT.value}" in url
 
 
 def test_NarouURLBuilder_no_params():

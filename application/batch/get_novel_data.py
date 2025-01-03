@@ -5,7 +5,7 @@ import itertools
 from prefect import flow, task
 
 from apis.narou.narou_data import NarouData, NarouDataMapper
-from apis.narou.type import NarouOfType, NarouOrderType, OutType
+from apis.narou.type import NarouLimitType, NarouOfType, NarouOrderType, OutType
 from apis.narou.urls import NarouURLBuilder
 from apis.request import request_get
 from batch.data import NcodeMappingData
@@ -197,8 +197,8 @@ def get_novel_data():
         return
 
     # 1-2 fetch_novel_infoを実行
-    # 500件ずつ区切って並列実行
-    # (APIの最大取得件数が500件なため)
+    # 取得最大値ずつ区切って並列実行
+    # (APIの最大取得件数を考慮するため)
     console_logger.info("flow-1-2 fetch_novel_infoを実行")
     chunk_data_list = get_chunk_list(data_list, 500)
     fetch_data_list = fetch_novel_info.map(chunk_data_list).result()
