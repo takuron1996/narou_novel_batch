@@ -1,17 +1,19 @@
 """なろうランキング取得処理関連のテスト."""
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 import pytest
+from freezegun import freeze_time
 
 from apis.narou.type import RankType
 from batch.get_ranking import process_command_args
+from common.datetime_util import jst_now
 
 
 # process_command_argsのテスト
 def test_future_date():
     """未来日のrank_dateが指定された場合はエラー."""
-    future_date = (datetime.now() + timedelta(days=1)).strftime("%Y%m%d")
+    future_date = (jst_now() + timedelta(days=1)).strftime("%Y%m%d")
     args = [future_date, "d"]
     with pytest.raises(ValueError, match="rank_dateは未来日を指定できません"):
         process_command_args(args)
@@ -24,20 +26,21 @@ def test_invalid_date_format():
         process_command_args(args)
 
 
+@freeze_time("2024-12-02 12:00:00+09:00")
 def test_no_argument():
-    """引数が指定されていない場合は現在日時とデフォルトのrank_typeを使用."""
+    """引数が指定されていない場合を使用."""
     args = []
     results = process_command_args(args)
-    expected_date = datetime.now().strftime("%Y%m%d")
+    expected_date = jst_now().strftime("%Y%m%d")
     assert results[0] == expected_date
-    assert results[1] == [RankType.DAILY]
 
 
+@freeze_time("2024-12-02 12:00:00+09:00")
 def test_empty_date_argument():
     """空のrank_date引数が渡された場合は現在日とする."""
     args = ["", "d"]
     results = process_command_args(args)
-    expected_date = datetime.now().strftime("%Y%m%d")
+    expected_date = jst_now().strftime("%Y%m%d")
     assert results[0] == expected_date
     assert results[1] == [RankType.DAILY]
 

@@ -1,8 +1,8 @@
 """なろうランキングのEnum関連."""
 
-from datetime import datetime
 from enum import Enum
 
+from common.datetime_util import jst_strptime
 from config.log import console_logger
 
 
@@ -44,7 +44,7 @@ class RankType(Enum):
             ```
         """
         try:
-            parsed_date = datetime.strptime(date, "%Y%m%d")
+            parsed_date = jst_strptime(date)
             if rank_type == RankType.WEEKLY and parsed_date.weekday() != 1:
                 console_logger.warning(
                     "週間を指定する場合の日付は火曜日の日付を指定"
@@ -58,7 +58,7 @@ class RankType(Enum):
                     "月間、四半期を取得する場合、日付は1日を指定"
                 )
                 return False
-            elif parsed_date < datetime(2013, 5, 1):
+            elif parsed_date < jst_strptime("20130501"):
                 console_logger.warning("2013年5月1日以降の日付を指定")
                 return False
             return True
@@ -68,8 +68,81 @@ class RankType(Enum):
 
 
 class OutType(Enum):
-    """なろうランキングout."""
+    """なろうAPI関連のout."""
 
     YAML = "yaml"
     JSON = "json"
     PHP = "php"
+
+
+class NarouOrderType(Enum):
+    """なろうAPIの出力順序."""
+
+    NEW = "new"
+    FAVORITE_NOVEL_COUNT = "favnovelcnt"
+    REVIEW_COUNT = "reviewcnt"
+    HYOKA = "hyoka"
+    HYOKA_ASC = "hyokaasc"
+    DAILY_POINT = "dailypoint"
+    WEEKLY_POINT = "weeklypoint"
+    MONTHLY_POINT = "monthlypoint"
+    QUARTER_POINT = "quarterpoint"
+    YEARL_YPOINT = "yearlypoint"
+    IMPRESSION_COUNT = "impressioncnt"
+    HYOKA_COUNT = "hyokacnt"
+    HYOKA_COUNT_ASC = "hyokacntasc"
+    WEEKLY = "weekly"
+    LENGTH_DESC = "lengthdesc"
+    LENGTH_ASC = "lengthasc"
+    GENERAL_FIRST_UP = "generalfirstup"
+    NCODE_DESC = "ncodedesc"
+    OLD = "old"
+
+
+class NarouOfType(Enum):
+    """なろうAPIで出力する項目."""
+
+    TITLE = "t"
+    NCODE = "n"
+    USERID = "u"
+    WRITER = "w"
+    STORY = "s"
+    BIGGENRE = "bg"
+    GENRE = "g"
+    KEYWORD = "k"
+    GENERAL_FIRSTUP = "gf"
+    GENERAL_LASTUP = "gl"
+    NOVELTYPE = "nt"
+    END = "e"
+    GENERAL_ALL_NO = "ga"
+    LENGTH = "l"
+    TIME = "ti"
+    ISSTOP = "i"
+    ISR15 = "ir"
+    ISBL = "ibl"
+    ISGL = "igl"
+    ISZANKOKU = "izk"
+    ISTENSEI = "its"
+    ISTENNI = "iti"
+    GLOBAL_POINT = "gp"
+    DAILY_POINT = "dp"
+    WEEKLY_POINT = "wp"
+    MONTHLY_POINT = "mp"
+    QUARTER_POINT = "qp"
+    YEARLY_POINT = "yp"
+    FAV_NOVEL_CNT = "f"
+    IMPRESSION_CNT = "imp"
+    REVIEW_CNT = "r"
+    ALL_POINT = "a"
+    ALL_HYOKA_CNT = "ah"
+    SASIE_CNT = "sa"
+    KAIWARITU = "ka"
+    NOVELUPDATED_AT = "nu"
+    UPDATED_AT = "ua"
+
+
+class NarouLimitType(Enum):
+    """なろうAPIで指定する出力数の定数."""
+
+    MIN_FETCH_LIMIT = 1
+    MAX_FETCH_LIMIT = 500

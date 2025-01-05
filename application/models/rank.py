@@ -1,14 +1,13 @@
 """rankテーブル."""
 
 from sqlalchemy import (
-    TIMESTAMP,
+    UUID,
     Column,
     Date,
     ForeignKey,
     Integer,
     PrimaryKeyConstraint,
     String,
-    func,
 )
 
 from models.base import Base
@@ -21,20 +20,10 @@ class Rank(Base):
 
     __tablename__ = "rank"
 
-    id = Column(String(36), ForeignKey(NcodeMapping.id), nullable=False)
+    id = Column(UUID(as_uuid=True), ForeignKey(NcodeMapping.id), nullable=False)
     rank = Column(Integer, nullable=False)
     rank_date = Column(Date, nullable=False)
     rank_type = Column(String(1), ForeignKey(RankType.type), nullable=False)
-    created_at = Column(
-        TIMESTAMP, nullable=False, server_default=func.current_timestamp()
-    )
-    updated_at = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=func.current_timestamp(),
-        onupdate=func.current_timestamp(),
-    )
-    deleted_at = Column(TIMESTAMP, nullable=True)
 
     __table_args__ = (
         PrimaryKeyConstraint(
