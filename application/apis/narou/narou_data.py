@@ -86,7 +86,9 @@ class NarouRankDataMapper:
     """APIレスポンスからNarouRankDataをマッピングするクラス."""
 
     @staticmethod
-    def map_response_to_data(response, rank_date, rank_type) -> NarouRankData:
+    def map_response_to_data(
+        response, rank_date, rank_type
+    ) -> list[NarouRankData]:
         """APIレスポンスからNarouRankDataのリストを生成するスタティックメソッド."""
         data_list = []
         try:
